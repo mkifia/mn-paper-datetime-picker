@@ -190,6 +190,8 @@ If you include this element as part of `paper-dialog`, use the class
 
             }
 
+            #heading.AM .AM,
+            #heading.PM .PM,
             #heading.pg-date .day,
             #heading.pg-hours .hours,
             #heading.pg-minutes .minutes,
@@ -230,6 +232,9 @@ If you include this element as part of `paper-dialog`, use the class
                 font-size: 16px;
                 @apply(--paper-date-picker-heading-date);
             }
+            #heading .period {
+                margin-left: 10px;
+            }
 
             #pages {
                 @apply(--layout-flex);
@@ -261,6 +266,9 @@ If you include this element as part of `paper-dialog`, use the class
                 @apply(--layout-fit);
 
             }
+            .clock-animatable {
+                @apply(--layout-fit);
+            }
 
             g.hide {
                 display: none;
@@ -270,19 +278,20 @@ If you include this element as part of `paper-dialog`, use the class
         <iron-media-query query="{{_getMediaQuery(forceNarrow, responsiveWidth)}}" query-matches="{{_queryMatches}}"></iron-media-query>
 
         <div id="datetimePicker">
-            <div id="heading" class$="{{_getHeadingClass('heading-content', _selectedPage)}}" selectable="[name]" attr-for-selected="name" selected="{{view}}">
+            <div id="heading" class$="{{_getHeadingClass('heading-content', _selectedPage)}} {{period}}" selectable="[name]" attr-for-selected="name" selected="{{view}}">
                 <div hidden$="{{nodate}}" class="date">
                     <div class="year" on-tap="_tapHeadingYear" name="year">{{dateFormat(datetime, 'YYYY', locale)}}</div>
                     <div class="day" on-tap="_tapHeadingDate" name="date">{{dateFormat(datetime, headingFormat, locale)}}
                     </div>
                 </div>
                 <div class="time" hidden$="{{notime}}">
-                    <div name="hours" on-tap="_tapHeadingHour" class="hours">{{hour}}</div>
+                    <div name="hours" on-tap="_tapHeadingHour" class="hours" hidden$="{{!format24}}">{{hour}}</div>
+                    <div name="hours" on-tap="_tapHeadingHour" class="hours" hidden$="{{format24}}">{{hour12}}</div>
                     <div class="sep">:</div>
                     <div name="minutes" on-tap="_tapHeadingMinute" class="minutes">{{_zeroPad(minute, 2)}}</div>
                     <div class="period" hidden$="{{format24}}">
-                        <div name="AM" on-tap="_periodChanged">AM</div>
-                        <div name="PM" on-tap="_periodChanged">PM</div>
+                        <div class="AM" name="AM" on-tap="_periodChanged">AM</div>
+                        <div class="PM" name="PM" on-tap="_periodChanged">PM</div>
                     </div>
                 </div>
             </div>
@@ -293,10 +302,10 @@ If you include this element as part of `paper-dialog`, use the class
                 <neon-animatable id="year">
                     <paper-year-list id="yearList" date="{{datetime}}" on-tap="_tapHeadingDate" min="[[_minYear]]" max="[[_maxYear]]"></paper-year-list>
                 </neon-animatable>
-                <neon-animatable id="hours">
+                <neon-animatable id="hours" class="clock-animatable">
                     <paper-clock-selector class="fit" id="hourClock" count="{{hourFormat}}" step="1" animated="[[animated]]" selected="{{hour}}" narrow="[[narrow]]"></paper-clock-selector>
                 </neon-animatable>
-                <neon-animatable id="minutes">
+                <neon-animatable id="minutes" class="clock-animatable">
                     <paper-clock-selector class="fit" id="minuteClock" count="60" step="5" animated="[[animated]]" use-zero zero-pad selected="{{minute}}" narrow="[[narrow]]"></paper-clock-selector>
                 </neon-animatable>
             </neon-animated-pages>
@@ -437,9 +446,7 @@ If you include this element as part of `paper-dialog`, use the class
            * The current 12-hour value (0-12)
            */
                     hour12: {
-                        type: Number,
-                        notify: true,
-                        observer: '_hour12Changed'
+                        type: Number
                     },
                     /**
            * The current minute (0-59)
@@ -456,7 +463,6 @@ If you include this element as part of `paper-dialog`, use the class
                     period: {
                         type: String,
                         notify: true,
-                        observer: '_periodChanged',
                         value: 'AM'
                     },
                     /**
@@ -628,25 +634,23 @@ If you include this element as part of `paper-dialog`, use the class
                     var add = (this.period === 'PM'
                         ? 12
                         : 0);
-                    this.hour = ((hour12 % 12) + add) % 24;
                 },
-                _hourChanged: function (hour, oldValue) {
+                _hourChanged: function (hour, oldVaue) {
                     hour = parseInt(hour);
                     if (isNaN(hour) && !hour) {
                         return;
                     }
                     if (isNaN(hour)) {
                         warn('Invalid number:', hour);
-                        this.hour = oldValue;
+                        this.hour = oldVaue;
                         return;
                     }
                     hour = parseFloat(hour) % 24;
                     if (hour < 10 && this.format24) {
                         hour = "0" + hour;
                     }
-                    this.hour = hour;
+
                     this.hour12 = this._twelveHour(hour);
-                    this.period = ['PM', 'AM'][+ (hour < 12)];
                     this.datetime.setHours(hour);
                     this.time = this.formatTime(hour, this.minute);
 
@@ -662,10 +666,21 @@ If you include this element as part of `paper-dialog`, use the class
                     if (isNaN(parseInt(this.hour)) || isNaN(parseInt(this.minute))) {
                         return;
                     }
-                    if (period === 'AM' && this.hour >= 12) {
-                        this.hour -= 12;
-                    } else if (period === 'PM' && this.hour < 12) {
-                        this.hour += 12;
+                    if (this.format24) {
+                        return;
+                    }
+                    if (period.srcElement.innerText === 'AM') {
+                        this.period = period.srcElement.innerText;
+                        if (this.hour >= 12) {
+                            var hour = this.hour - 12;
+                            this._hourChanged(hour);
+                        }
+                    } else if (period.srcElement.innerText === 'PM') {
+                        this.period = period.srcElement.innerText;
+                        if (this.hour < 12) {
+                            var hour = this.hour + 12;
+                            this._hourChanged(hour);
+                        }
                     }
                 },
                 _zeroPad: function (value, length) {

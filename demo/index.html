@@ -46,7 +46,7 @@
 
                 <paper-button class="btn" onclick="timeDialog.open()" raised>Change Time</paper-button>
                 <paper-dialog id="timeDialog" class="paper-datetime-picker-dialog" modal on-iron-overlay-closed="dismissDialog">
-                    <paper-datetime-picker id="picker3" animated="false" enableSeconds="true" locale="de" nodate></paper-datetime-picker>
+                    <paper-datetime-picker id="picker3" animated="false" enableSeconds="true" nodate></paper-datetime-picker>
                     <div class="buttons">
                         <paper-button dialog-dismiss>CANCEL</paper-button>
                         <paper-button dialog-confirm>OK</paper-button>
@@ -82,10 +82,10 @@
                 };
                 document.addEventListener('WebComponentsReady', function () {
                     //  scope.time = new Date();
-                    var date = new Date()
-                    scope.minDate = new Date(date.setDate(date.getDate() - 10));
-                    scope.datetime2 = new Date(date.setDate(date.getDate() - 5));
-                    scope.maxDate = new Date(date.setDate(date.getDate() + 10));
+                    var date = new Date();
+                    scope.minDate = new Date(date.setDate(new Date().getDate() - 10));
+                    scope.datetime2 = new Date(date.setDate(new Date().getDate() - 5));
+                    scope.maxDate = new Date(date.setDate(new Date().getDate() + 10));
                     scope.showDialog();
                 });
             })();
