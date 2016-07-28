@@ -7,30 +7,25 @@ component aims to be a clone of the time picker introduced in Android Lollipop.
 
 ![wide picker screenshot][wide] ![narrow picker screenshot][narrow]
 
-See the [component page](http://bendavis78.github.io/paper-time-picker/) for
-full documentation.
 
 ## Examples:
 
 Default picker:
 
 ```html
-<paper-time-picker></paper-time-picker>
+<paper-datetime-picker></paper-datetime-picker>
 ```
-
-Setting the initial time to 4:20pm (note that hours given as 24-hour):
-
+for 24h format
 ```html
-<paper-time-picker time="4:20pm"></paper-time-picker>
-```
+<paper-datetime-picker locale="de"></paper-datetime-picker>
 
 If you include this element as part of `paper-dialog`, use the class
-`"paper-time-picker-dialog"` on the dialog in order to give it proper styling.
+`"paper-datetime-picker-dialog"` on the dialog in order to give it proper styling.
 
 ```html
 <paper-dialog id="dialog" modal class="paper-time-picker-dialog"
   on-iron-overlay-closed="dismissDialog">
-  <paper-time-picker id="timePicker" time="[[time]]"></paper-time-picker>
+  <paper-datetime-picker id="datetimePicker" datetime="[[datetime]]"></paper-datetime-picker>
   <div class="buttons">
     <paper-button dialog-dismiss>Cancel</paper-button>
     <paper-button dialog-confirm>OK</paper-button>
@@ -38,18 +33,7 @@ If you include this element as part of `paper-dialog`, use the class
 </paper-dialog>
 ```
 
-# Reporting Bugs
-
-When filing a bug report, please provide an example of how to repoduce using
-plunker, jsbin, jsfiddle, etc. You can use the following plunker as a starting
-point: http://plnkr.co/edit/gVQluG0GrFP3RzCPZPIi
-
----
-
-If you find this component useful, please show your support by donating to
-[Bold Idea](http://boldidea.org). Click the button below!
-
-[![ideaSpark campaign button][donate]](https://donorbox.org/bold-idea-make-ideaspark-possible-for-dallas-area-students)
+The date and time picker components are from https://github.com/bendavis78/paper-date-picker and https://github.com/bendavis78/paper-time-picker. Thanks [bendavis78] (https://github.com/bendavis78).
 
 [wide]: http://i.imgur.com/kosRJrF.png
 [narrow]: http://i.imgur.com/s3honuG.png
