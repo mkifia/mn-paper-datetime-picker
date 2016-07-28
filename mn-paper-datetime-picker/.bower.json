@@ -1,20 +1,27 @@
 {
   "name": "mn-paper-datetime-picker",
-  "authors": [],
-  "description": "Provides a responsive time picker based on the material design spec",
+  "description": "Provides a responsive datetime picker based on the material design spec",
   "keywords": [
     "web-component",
     "web-components",
     "polymer",
     "timepicker",
-    "paper-time-picker"
+    "paper-time-picker",
+    "datepicker",
+    "paper-date-picker",
+    "paper-datetime-picker"
   ],
-  "main": "paper-time-picker.html",
+  "main": "mn-paper-datetime-picker.html",
   "license": "MIT",
-  "homepage": "http://bendavis78.github.io/paper-time-picker/",
+  "homepage": "https://nema1012.github.io/mn-paper-datetime-picker/",
   "ignore": [
     "/.*",
-    "/tests/"
+    "/tests/",
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
   ],
   "dependencies": {
     "moment-element": "bendavis78/moment-element#^1.1.0",
@@ -40,11 +47,11 @@
   "resolutions": {
     "webcomponentsjs": "^0.7.2"
   },
-  "_release": "5fcef9d850",
+  "_release": "9c57b20f95",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "5fcef9d8501f33ccd24f2c5e1fdb168c02a43694"
+    "commit": "9c57b20f958ab80e5160f974f656d9575b70231f"
   },
   "_source": "https://github.com/nema1012/mn-paper-datetime-picker.git",
   "_target": "*",

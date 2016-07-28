@@ -337,17 +337,6 @@
                         monthData,
                         months = [];
 
-                    // Make sure currentYear/currentMonth are in min/max range
-                    if (minDate && new Date(currentYear, currentMonth, 0) < minDate) {
-                        this.currentYear = minDate.getFullYear();
-                        this.currentMonth = minDate.getMonth() + 1;
-                        return;
-                    } else if (maxDate && new Date(currentYear, currentMonth - 1, 1) > maxDate) {
-                        this.currentYear = maxDate.getFullYear();
-                        this.currentMonth = maxDate.getMonth() + 1;
-                        return;
-                    }
-
                     for (var i = -PRELOAD_MONTHS; i <= PRELOAD_MONTHS; i++) {
                         weeks = [
                             []
@@ -360,10 +349,6 @@
                             month: date.getMonth() + 1,
                             date: new Date(date)
                         };
-
-                        if (!this._monthWithinValidRange(monthData.year, monthData.month)) {
-                            continue;
-                        }
 
                         // add "padding" days
                         var firstDay = date.getDay() - this._firstDayOfWeek;
