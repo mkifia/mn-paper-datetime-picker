@@ -38,7 +38,7 @@
             #clock {
                 display: block;
                 overflow: overlay;
-                padding: 29px;
+                padding: 22px;
             }
             :host([narrow]) #clock {
                 padding: 15px;
@@ -440,7 +440,7 @@
                     return {g: g, text: text, textClipped: textClipped};
                 },
                 _updateSize: function () {
-                    var radius = Math.min(this.offsetWidth, this.offsetHeight) / 2.2;
+                    var radius = Math.min(this.parentNode.scrollWidth, this.parentNode.scrollHeight) / 2.2;
                     if (!radius || this._resizedCache === radius) {
                         return;
                     }
