@@ -9,10 +9,11 @@
 <dom-module id="paper-clock-selector">
     <template>
         <style>
-            :host * {
-              -webkit-tap-highlight-color: rgba(0,0,0,0);
+             :host * {
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
             }
-            :host {
+
+             :host {
                 display: block;
                 @apply(--paper-font-body1);
                 -webkit-touch-callout: none;
@@ -25,46 +26,57 @@
                 @apply(--layout-horizontal);
                 @apply(--layout-center-center);
             }
+
             #clock {
                 display: block;
                 overflow: overlay;
-                padding: 22px;
+                padding: 25px 15px 0px 15px;
+                height: 100%;
             }
-            :host([narrow]) #clock {
-                padding: 15px;
 
+             :host([narrow]) #clock {
+                padding: 15px;
             }
 
             #clock * {
                 pointer-events: fill;
             }
+
             #face {
                 fill: var(--divider-color);
                 cursor: default;
             }
+
             .line {
                 stroke-width: 2;
             }
+
             .dot {
                 fill: var(--default-primary-color);
             }
+
             .line {
                 stroke: var(--default-primary-color);
             }
+
             .clock-hand {
                 z-index: 1;
             }
+
             .disc-large {
                 z-index: 2;
                 fill: var(--default-primary-color);
             }
+
             .disc-small {
                 fill: var(--text-primary-color);
             }
+
             .clock-hand.no-dot .disc-small {
                 fill: none;
                 stroke: none;
             }
+
             .number text {
                 z-index: 3;
                 fill: var(--primary-text-color);
@@ -74,15 +86,18 @@
                 text-align: center;
                 text-anchor: middle;
             }
+
             .number text.clipped {
                 z-index: 4;
                 fill: var(--text-primary-color);
                 clip-path: url('#handClip');
             }
+
             .select-area {
                 cursor: pointer;
                 fill-opacity: 0;
             }
+
             #clock.animating #clipCircle,
             #clock.animating #clockHand {
                 transition: transform 150ms ease-in;
@@ -91,12 +106,6 @@
             g.hide {
                 display: none;
             }
-
-            svg#clock {
-                width: 100%;
-                height: 100%;
-            }
-
         </style>
         <svg version="1.1" id="clock">
             <defs>
@@ -107,35 +116,31 @@
             <circle id="face" class="bg" r$="{{_radius}}" cx$="{{_radius}}" cy$="{{_radius}}"></circle>
             <g id="clockHand" class="clock-hand">
                 <circle class="dot" r="2" cx$="{{_radius}}" cy$="{{_radius}}"></circle>
-                <!--Hour-->
                 <line class="line" x1$="{{_radius}}" y1$="{{_radius}}" x2$="{{_handX}}" y2$="{{_handY}}"></line>
                 <circle class="disc-large" r$="{{_selectorSize}}" cx$="{{_handX}}" cy$="{{_handY}}"></circle>
                 <circle class="disc-small" r$="{{_selectorDotSize}}" cx$="{{_handX}}" cy$="{{_handY}}"></circle>
-                <!-- min -->
-                <!--  <line class="line" x1$="{{_radius}}" y1$="{{_radius}}" x2$="{{_handXmin}}" y2$="{{_handYmin}}"></line>
-                <circle class="disc-large" r$="{{_selectorSize}}" cx$="{{_handXmin}}" cy$="{{_handYmin}}"></circle>
-                <circle class="disc-small" r$="{{_selectorDotSize}}" cx$="{{_handXmin}}" cy$="{{_handYmin}}"></circle>-->>
             </g>
             <g id="numbers"></g>
             <path class="select-area" on-tap="_onTouch" on-track="_onTouch" d$="{{_getSelectArea(_radius, _selectorInner, _selectorOuter)}}"></path>
         </svg>
     </template>
     <script>
-        (function () {
+        (function() {
             var SVG_NS = 'http://www.w3.org/2000/svg';
 
             // radius values as a percentage of the clock-face radius
             var MAX_VISIBLE = 12;
 
-            var normalizeAngle = function (a) {
+            var normalizeAngle = function(a) {
                 // convert angle to a positive value between 0 and 360
-                a = a
-                    ? a % 360
-                    : 0;
-                return a < 0
-                    ? a + 360
-                    : a;
+                a = a ?
+                    a % 360 :
+                    0;
+                return a < 0 ?
+                    a + 360 :
+                    a;
             };
+
             function getShortestAngle(from, to) {
                 var angle,
                     offset = 0;
@@ -192,22 +197,22 @@
                 },
                 observers: ['_populate(count, step, useZero)'],
                 behaviors: [Polymer.IronResizableBehavior],
-                ready: function () {
-                    this._transitionEvent = this.style.WebkitTransition
-                        ? 'transitionEnd'
-                        : 'webkitTransitionEnd';
+                ready: function() {
+                    this._transitionEvent = this.style.WebkitTransition ?
+                        'transitionEnd' :
+                        'webkitTransitionEnd';
                     this._populate();
                     this._selectedChanged(this.selected);
                 },
-                setClockHand: function (deg, animate, callback) {
+                setClockHand: function(deg, animate, callback) {
                     deg = normalizeAngle(deg);
 
-                    animate = typeof(animate) === 'undefined'
-                        ? this.animated
-                        : animate;
-                    animate = this._radius
-                        ? animate
-                        : false;
+                    animate = typeof(animate) === 'undefined' ?
+                        this.animated :
+                        animate;
+                    animate = this._radius ?
+                        animate :
+                        false;
 
                     //this.$.clock.classList.remove('animating');
 
@@ -228,7 +233,7 @@
                         return this._setHandRotation(rotate);
                     }
 
-                    this._once(this._transitionEvent, function () {
+                    this._once(this._transitionEvent, function() {
                         if (callback) {
                             callback();
                         }
@@ -237,21 +242,21 @@
                     }.bind(this), this.$.clockHand);
 
                     this.$.clock.classList.add('animating');
-                    this.async(function () {
+                    this.async(function() {
                         this._setHandRotation(rotate);
                     });
 
                 },
-                _getTransform: function (el) {
+                _getTransform: function(el) {
                     return el.style.transform | el.style.webkitTransform | el.style.msTransform;
                 },
-                _setTransform: function (el, value) {
+                _setTransform: function(el, value) {
                     el.style.msTransform = el.style.webkitTransform = el.style.transform = value;
                 },
-                _setTransformOrigin: function (el, value) {
+                _setTransformOrigin: function(el, value) {
                     el.style.msTransformOrigin = el.style.webkitTransformOrigin = el.style.transformOrigin = value;
                 },
-                _setHandRotation: function (deg) {
+                _setHandRotation: function(deg) {
                     if (this.count != 24) {
                         var hasLabel = ((deg / 360) * this.count) % this.step === 0;
                     } else {
@@ -259,11 +264,10 @@
                     }
                     var transform = 'rotate(' + deg + 'deg)';
                     this.$.clockHand.classList[
-                        ['remove', 'add'][+ hasLabel]
+                        ['remove', 'add'][+hasLabel]
                     ]('no-dot');
                     if (this.count == 24) {
                         if (this.selected > 12) {
-                            //var radius = Math.min(this.offsetWidth, this.offsetHeight) / 2; this._handX = this._numbers[this.selected].x;
                             if (this.selected == 24) {
                                 this._handX = this._numbers[0].x;
                                 this._handY = this._numbers[0].y;
@@ -272,24 +276,16 @@
                                 this._handY = this._numbers[this.selected].y;
                                 this._handX = this._numbers[this.selected].x;
                             }
-
-                            /*var v = this._radius + 'px ' + radius + 'px';
-                            this._setTransformOrigin(this.$.clockHand, v);
-                            this._setTransformOrigin(this.$.clipCircle, v);*/
                         } else {
                             this._handX = this._numbers[this.selected].x;
                             this._handY = this._numbers[this.selected].y;
-                            /*  var radius = this._radius * 1.4;
-                            var v = radius + 'px ' + radius + 'px';
-                            this._setTransformOrigin(this.$.clockHand, v);
-                            this._setTransformOrigin(this.$.clipCircle, v);*/
                         }
                     } else {
                         this._setTransform(this.$.clockHand, transform);
                         this._setTransform(this.$.clipCircle, transform);
                     }
                 },
-                _selectedChanged: function (selected) {
+                _selectedChanged: function(selected) {
                     if (!this.count || isNaN(selected)) {
                         return;
                     }
@@ -310,7 +306,7 @@
                         this.setClockHand((360 / (this.count / 2)) * this.selected);
                     }
                 },
-                _stepChanged: function (value, oldValue) {
+                _stepChanged: function(value, oldValue) {
                     this._step = oldValue;
                     if (!this.count || isNaN(value)) {
                         return;
@@ -326,7 +322,7 @@
                     }
                     this._step = value;
                 },
-                _populate: function () {
+                _populate: function() {
                     delete this._resizedCache;
                     var display,
                         value,
@@ -369,9 +365,8 @@
 
                     this._positionClockPoints(numbers);
 
-                    //this.set('_numbers', numbers);
                 },
-                _updateNumber: function (number) {
+                _updateNumber: function(number) {
                     var dom = number.dom;
                     if (!dom) {
                         return;
@@ -395,12 +390,12 @@
                     }
 
                 },
-                _createNumberElement: function (number) {
+                _createNumberElement: function(number) {
                     // We can't use templates inside SVG elements, so we have to create the numbers in dom and set up attribute bindings manually
                     function create(type, classList) {
                         var el = document.createElementNS(SVG_NS, type);
                         if (classList) {
-                            classList.forEach(function (c) {
+                            classList.forEach(function(c) {
                                 el.classList.add(c);
                             });
                         }
@@ -427,9 +422,13 @@
 
                     }
 
-                    return {g: g, text: text, textClipped: textClipped};
+                    return {
+                        g: g,
+                        text: text,
+                        textClipped: textClipped
+                    };
                 },
-                _updateSize: function () {
+                _updateSize: function() {
                     var radius = Math.min(this.parentNode.scrollWidth, this.parentNode.scrollHeight) / 2.2;
                     if (!radius || this._resizedCache === radius) {
                         return;
@@ -441,17 +440,16 @@
                     this._positionClockPoints();
 
                     this._resizedCache = this._radius;
-                    //this.$.clock.style.width = (radius * 2) + 'px'; this.$.clock.style.height = (radius * 2) + 'px';
                     var v = radius + 'px ' + radius + 'px';
                     this._setTransformOrigin(this.$.clockHand, v);
                     this._setTransformOrigin(this.$.clipCircle, v);
 
-                    this.async(function () {
+                    this.async(function() {
                         // FIXME: this is hacky, but for some reason we need to wait a bit to get an accurate measurement
                         this._bounds = this.$.face.getBoundingClientRect();
                     }.bind(this), 150);
                 },
-                _positionClockPoints: function (numbers) {
+                _positionClockPoints: function(numbers) {
                     if (!this._radius) {
                         return;
                     }
@@ -505,7 +503,7 @@
                     }
                     this.set('_numbers', numbers);
                 },
-                _notifyNumberChanged: function (path) {
+                _notifyNumberChanged: function(path) {
                     var propPath,
                         props = ['x', 'y'];
                     for (var i = 0; i < props.length; i++) {
@@ -515,10 +513,11 @@
                         }
                     }
                 },
-                _getSelectArea: function (radius, outer, inner) {
-                    return '\nM ' + (radius - outer) + ' ' + radius + '\nA ' + outer + ' ' + outer + ' 0 0 0 ' + (radius + outer) + ' ' + radius + '\nA ' + outer + ' ' + outer + ' 0 0 0 ' + (radius - outer) + ' ' + radius + '\nM ' + (radius - inner) + ' ' + radius + '\nA ' + inner + ' ' + inner + ' 0 0 1 ' + (radius + inner) + ' ' + radius + '\nA ' + inner + ' ' + inner + ' 0 0 1 ' + (radius - inner) + ' ' + radius;
+                _getSelectArea: function(radius, outer, inner) {
+                    return '\nM ' + (radius - outer) + ' ' + radius + '\nA ' + outer + ' ' + outer + ' 0 0 0 ' + (radius + outer) + ' ' + radius + '\nA ' + outer + ' ' + outer + ' 0 0 0 ' + (radius - outer) + ' ' + radius + '\nM ' +
+                        (radius - inner) + ' ' + radius + '\nA ' + inner + ' ' + inner + ' 0 0 1 ' + (radius + inner) + ' ' + radius + '\nA ' + inner + ' ' + inner + ' 0 0 1 ' + (radius - inner) + ' ' + radius;
                 },
-                _onTouch: function (event) {
+                _onTouch: function(event) {
                     var x = event.detail.x - this._bounds.left - this._radius;
                     var y = event.detail.y - this._bounds.top - this._radius;
                     if (this._numbers.length != 24) {
@@ -532,9 +531,9 @@
                         this.animated = event.type !== 'track';
                         // use coords to find angle from 12 o'clock position
                         var theta = Math.atan(y / x);
-                        theta = (Math.PI / 2) + (x < 0
-                            ? theta + Math.PI
-                            : theta);
+                        theta = (Math.PI / 2) + (x < 0 ?
+                            theta + Math.PI :
+                            theta);
                         var denominator = this.count;
                         if (this.count == 24) {
                             denominator = 12;
@@ -548,7 +547,7 @@
                         y = event.detail.y - this._bounds.top;
                         var bestPoint = null;
                         if (Array.isArray(this._numbers)) {
-                            this._numbers.forEach(function (number) {
+                            this._numbers.forEach(function(number) {
                                 if (bestPoint == null) {
                                     bestPoint = number;
                                 } else {
@@ -568,35 +567,36 @@
                         });
                     }
                 },
-                _formatNumber: function (value) {
+                _formatNumber: function(value) {
                     if (this.zeroPad) {
                         return ('0' + value).substr(-2);
                     }
                     return value.toString();
                 },
-                _getNumberClass: function (pfx, n, selected) {
+                _getNumberClass: function(pfx, n, selected) {
                     var cssClass = pfx;
                     if (selected.value === n.value) {
                         cssClass += ' selected';
                     }
                     return cssClass;
                 },
-                _vibrate: function () {
-                    this.debounce('vibrate', function () {
+                _vibrate: function() {
+                    this.debounce('vibrate', function() {
                         if (navigator.vibrate) {
                             navigator.vibrate(10);
                         }
                     });
                 },
-                _zeroPadChanged: function () {
+                _zeroPadChanged: function() {
                     if (Array.isArray(this._numbers)) {
-                        this._numbers.forEach(function (number) {
+                        this._numbers.forEach(function(number) {
                             this._updateNumber(number);
                         }.bind(this));
                     }
                 },
-                _once: function (eventName, callback, node) {
+                _once: function(eventName, callback, node) {
                     node = node || this;
+
                     function onceCallback() {
                         node.removeEventListener(eventName, onceCallback);
                         callback.apply(null, arguments);

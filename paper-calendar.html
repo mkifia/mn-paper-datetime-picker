@@ -195,8 +195,8 @@
                                     <div class="day">{{item.0}}</div>
                                 </div>
                             </template>
-                        </div>
-                        <template is="dom-repeat" items="{{month.weeks}}" as="row">
+    </div>
+    <template is="dom-repeat" items="{{month.weeks}}" as="row">
                             <div class="month-row month-days">
                                 <template is="dom-repeat" items="{{row}}">
                                     <div class="month-col">
@@ -205,30 +205,30 @@
                                         </div>
                                     </div>
                                 </template>
-                            </div>
-                        </template>
-                    </div>
-                </template>
-            </div>
-            <div id="monthNav" class="month-nav">
-                <div class="flex col self-stretch">
-                    <div class="btn" on-tap="_swipePrevMonth">
-                        <paper-ripple center class="ripple circle"></paper-ripple>
-                        <iron-icon class="icon flex" icon="chevron-left"></iron-icon>
-                    </div>
-                </div>
-                <div class="flex-5"></div>
-                <div class="flex col self-stretch">
-                    <div class="btn" on-tap="_swipeNextMonth">
-                        <paper-ripple center class="ripple circle"></paper-ripple>
-                        <iron-icon class="icon flex" icon="chevron-right"></iron-icon>
-                    </div>
-                </div>
+    </div>
+    </template>
+    </div>
+    </template>
+    </div>
+    <div id="monthNav" class="month-nav">
+        <div class="flex col self-stretch">
+            <div class="btn" on-tap="_swipePrevMonth">
+                <paper-ripple center class="ripple circle"></paper-ripple>
+                <iron-icon class="icon flex" icon="chevron-left"></iron-icon>
             </div>
         </div>
+        <div class="flex-5"></div>
+        <div class="flex col self-stretch">
+            <div class="btn" on-tap="_swipeNextMonth">
+                <paper-ripple center class="ripple circle"></paper-ripple>
+                <iron-icon class="icon flex" icon="chevron-right"></iron-icon>
+            </div>
+        </div>
+    </div>
+    </div>
     </template>
     <script>
-        (function () {
+        (function() {
 
             // Ignore movement within this distance (px)
             var WIGGLE_THRESHOLD = 4;
@@ -248,19 +248,19 @@
                 is: 'paper-calendar',
                 properties: {
                     /*
-         * The selected date
-         */
+                     * The selected date
+                     */
                     date: {
                         type: Date,
                         notify: true,
-                        value: function () {
+                        value: function() {
                             return new Date();
                         },
                         observer: '_dateChanged'
                     },
                     /**
-         * The current locale
-         */
+                     * The current locale
+                     */
                     locale: {
                         type: String,
                         value: 'en',
@@ -268,28 +268,28 @@
                         observer: '_localeChanged'
                     },
                     /**
-         * The minimum allowed date
-         */
+                     * The minimum allowed date
+                     */
                     minDate: {
                         type: Date,
                         value: null
                     },
                     /**
-         * The maximum allowed date
-         */
+                     * The maximum allowed date
+                     */
                     maxDate: {
                         type: Date,
                         value: null
                     },
                     /**
-         * The currently selected month (1-12)
-         */
+                     * The currently selected month (1-12)
+                     */
                     currentMonth: {
                         type: Number
                     },
                     /**
-         * The currently selected year
-         */
+                     * The currently selected year
+                     */
                     currentYear: {
                         type: Number
                     },
@@ -303,13 +303,13 @@
                     'iron-resize': '_resizeHandler',
                     'swiped': '_onSwipe'
                 },
-                ready: function () {
+                ready: function() {
                     this._updateToday();
                     this.currentMonth = this.date.getMonth() + 1;
                     this.currentYear = this.date.getFullYear();
                     this._transitionEvent = this._whichTransitionEnd();
                 },
-                dateFormat: function (date, format, locale) {
+                dateFormat: function(date, format, locale) {
                     if (!date) {
                         return '';
                     }
@@ -317,7 +317,7 @@
                     value.locale(locale || this.locale);
                     return value.format(format);
                 },
-                _localeChanged: function (locale) {
+                _localeChanged: function(locale) {
                     var localeMoment = moment();
                     localeMoment.locale(locale);
                     var weekdays = [];
@@ -327,7 +327,7 @@
                     this._weekdays = weekdays;
                     this._firstDayOfWeek = localeMoment.weekday(0).format('d');
                 },
-                _populate: function (currentYear, currentMonth, minDate, maxDate) {
+                _populate: function(currentYear, currentMonth, minDate, maxDate) {
                     var date,
                         month,
                         weeks,
@@ -356,7 +356,10 @@
                             firstDay = 7 + firstDay;
                         }
                         for (d = 0; d < firstDay; d++) {
-                            weeks[0].push({day: null, date: null});
+                            weeks[0].push({
+                                day: null,
+                                date: null
+                            });
                         }
 
                         // add actual days
@@ -382,7 +385,10 @@
                             if (d % 7 === 0) {
                                 weeks.push([]);
                             }
-                            weeks[weeks.length - 1].push({day: null, date: null});
+                            weeks[weeks.length - 1].push({
+                                day: null,
+                                date: null
+                            });
                             d += 1;
                         }
 
@@ -394,12 +400,12 @@
                         return;
                     }
                     this.set('_months', months);
-                    this.async(function () {
+                    this.async(function() {
                         this._updateSelection();
                         this._positionSlider();
                     });
                 },
-                _getDayClass: function (cssClass, date) {
+                _getDayClass: function(cssClass, date) {
                     if (date) {
                         var timestamp = date.getTime();
                         if (timestamp === this.today.getTime()) {
@@ -407,20 +413,20 @@
                         }
                         if (timestamp === this.date.getTime()) {
                             cssClass += ' selected';
-                            this.async(function () {
+                            this.async(function() {
                                 this._updateSelection();
                             });
                         }
                     }
                     return cssClass;
                 },
-                _isDisabled: function (day, date) {
+                _isDisabled: function(day, date) {
                     return !day || !this._withinValidRange(date);
                 },
-                _getMonthClass: function (name, month) {
+                _getMonthClass: function(name, month) {
                     return name + ' month-' + month.year + '-' + month.month;
                 },
-                _onTrack: function (event) {
+                _onTrack: function(event) {
                     var dx = event.detail.dx;
                     var dy = event.detail.dy;
                     var adx = Math.abs(dx);
@@ -443,9 +449,9 @@
                             // ignore movement within WIGGLE_THRESHOLD
                             var distance = (dx * dx) + (dy * dy);
                             if (!this._gesture && distance > WIGGLE_THRESHOLD_SQUARE) {
-                                this._gesture = adx > ady
-                                    ? 'pan-x'
-                                    : 'pan-y';
+                                this._gesture = adx > ady ?
+                                    'pan-x' :
+                                    'pan-y';
                             }
 
                             // only drag during pan-x gesture
@@ -466,13 +472,13 @@
                                 var p,
                                     d,
                                     max = RESIST_LENGTH;
-                                p = rdx > width
-                                    ? 1
-                                    : rdx / width;
+                                p = rdx > width ?
+                                    1 :
+                                    rdx / width;
                                 d = max * (1 - Math.pow(1 - p, RESIST_FACTOR));
-                                x = (dx < 0
-                                    ? -this._scrollWidth + width - d
-                                    : d);
+                                x = (dx < 0 ?
+                                    -this._scrollWidth + width - d :
+                                    d);
                             } else {
                                 this._resistStart = null;
                             }
@@ -507,29 +513,33 @@
                             this._gesture = null;
                     }
                 },
-                _swipePrevMonth: function () {
-                    this._translateX(0, 'swipe', function () {
+                _swipePrevMonth: function() {
+                    this._translateX(0, 'swipe', function() {
                         this.set('_contentClass', '');
                         this.transform('translateX(' + this._startPos + 'px)', this.$.months);
-                        this.fire('swiped', {direction: 'right'});
+                        this.fire('swiped', {
+                            direction: 'right'
+                        });
                     }.bind(this));
                 },
-                _swipeNextMonth: function () {
-                    this._translateX(-this._containerWidth * 2, 'swipe', function () {
+                _swipeNextMonth: function() {
+                    this._translateX(-this._containerWidth * 2, 'swipe', function() {
                         this.set('_contentClass', '');
                         this.transform('translateX(' + this._startPos + 'px)', this.$.months);
-                        this.fire('swiped', {direction: 'left'});
+                        this.fire('swiped', {
+                            direction: 'left'
+                        });
                     }.bind(this));
                 },
-                _getMonthIdx: function (pos) {
+                _getMonthIdx: function(pos) {
                     // returns the index for the visible month according to the given position
                     var width = this._containerWidth;
                     var i = Math.floor((-pos + (width / 2)) / width);
-                    return i < 0
-                        ? 0
-                        : i;
+                    return i < 0 ?
+                        0 :
+                        i;
                 },
-                _translateX: function (x, transition, cb) {
+                _translateX: function(x, transition, cb) {
                     if (isNaN(parseInt(x, 10))) {
                         throw new Error('Not a number: ' + x);
                     }
@@ -538,7 +548,7 @@
                         if (this._transitionDuration) {
                             this.$.months.style.transitionDuration = this._transitionDuration + 'ms';
                         }
-                        this._once(this._transitionEvent, function () {
+                        this._once(this._transitionEvent, function() {
                             this.set('_contentClass', '');
                             this.$.months.style.transitionDuration = '';
                             this._transitionDuration = null;
@@ -550,9 +560,9 @@
                         this.set('_contentClass', 'animating ' + transition);
                         this.$.monthNav.style.removeProperty('opacity');
                         // Fixes odd bug in chrome where we lose touch-events after changing opacity
-                        this._once('touchstart', function () {});
+                        this._once('touchstart', function() {});
                     }
-                    window.requestAnimationFrame(function () {
+                    window.requestAnimationFrame(function() {
                         if (!transition) {
                             var halfWidth = this._containerWidth / 2;
                             var dx = Math.abs(this._startPos - x);
@@ -564,7 +574,7 @@
                         this.transform('translateX(' + x + 'px)', this.$.months);
                     }.bind(this));
                 },
-                _getFastestMovement: function (event) {
+                _getFastestMovement: function(event) {
                     // detect flick based on fastest segment of movement
                     var l = this._moveQueue.length;
                     var dt,
@@ -585,24 +595,29 @@
                             v2 = tv2;
                         }
                     }
-                    return {x: x, y: y, v: Math.sqrt(v2)};
+                    return {
+                        x: x,
+                        y: y,
+                        v: Math.sqrt(v2)
+                    };
                 },
-                _onSwipe: function (event) {
+                _onSwipe: function(event) {
                     if (event.detail.direction === 'right') {
                         this._prevMonth();
                     } else {
                         this._nextMonth();
                     }
                 },
-                _once: function (eventName, callback, node) {
+                _once: function(eventName, callback, node) {
                     node = node || this;
+
                     function onceCallback() {
                         node.removeEventListener(eventName, onceCallback);
                         callback.apply(null, arguments);
                     }
                     node.addEventListener(eventName, onceCallback);
                 },
-                _incrMonth: function (i) {
+                _incrMonth: function(i) {
                     var date = new Date(this.currentYear, this.currentMonth - 1 + i);
                     var year = date.getFullYear();
                     var month = date.getMonth() + 1;
@@ -611,13 +626,13 @@
                         this.currentMonth = month;
                     }
                 },
-                _prevMonth: function () {
+                _prevMonth: function() {
                     this._incrMonth(-1);
                 },
-                _nextMonth: function () {
+                _nextMonth: function() {
                     this._incrMonth(1);
                 },
-                _dateChanged: function (date, oldValue) {
+                _dateChanged: function(date, oldValue) {
                     if (!this._isValidDate(date)) {
                         console.warn('Invalid date: ' + date);
                         this.date = date = oldValue;
@@ -629,19 +644,20 @@
                     this.currentYear = date.getFullYear();
                     this.currentMonth = date.getMonth() + 1;
                     // Clone the date object to force Polymer binding to notice a change. But only trigger a notification if there actually is a difference.
-                    date = new Date(date.getTime());
-                    date.setHours(0, 0, 0, 0);
                     if (oldValue && date.getTime && oldValue.getTime && date.getTime() === oldValue.getTime()) {
                         return;
                     }
                     this.set('date', date);
                     this._updateSelection();
                 },
-                _tapDay: function (event) {
+                _tapDay: function(event) {
                     if (!this._withinValidRange(event.model.item.date)) {
                         return false;
                     }
-                    this.date = event.model.item.date;
+                    var newDate = event.model.item.date;
+                    newDate.setHours(this.date.getHours());
+                    newDate.setMinutes(this.date.getMinutes());
+                    this.date = newDate;
                     /* only fire selected when we've tapped or stopped tracking */
                     if (event.type === 'tap' || event.detail.state === 'end') {
                         this.fire('paper-date-selected', {
@@ -650,21 +666,21 @@
                         });
                     }
                 },
-                _isValidDate: function (date) {
+                _isValidDate: function(date) {
                     return date && date.getTime && !isNaN(date.getTime());
                 },
-                _withinValidRange: function (date) {
+                _withinValidRange: function(date) {
                     if (this._isValidDate(date)) {
                         return (!this.minDate || date >= this.minDate) && (!this.maxDate || date <= this.maxDate);
                     }
                     return false;
                 },
-                _monthWithinValidRange: function (year, month) {
+                _monthWithinValidRange: function(year, month) {
                     var monthStart = new Date(year, month - 1, 1);
                     var monthEnd = new Date(year, month, 0);
                     return this._withinValidRange(monthStart) || this._withinValidRange(monthEnd);
                 },
-                _positionSlider: function () {
+                _positionSlider: function() {
                     if (!this._months || !this._containerWidth) {
                         return;
                     }
@@ -673,7 +689,7 @@
                     var i = ((this.currentYear * 12) + this.currentMonth) - ((this._months[0].year * 12) + this._months[0].month);
                     this._translateX(-i * this._containerWidth);
                 },
-                _updateSelection: function () {
+                _updateSelection: function() {
                     // Force the day selection circle to maintain a 1:1 ratio
                     var selected = this.$$('.day-item.selected');
                     if (!selected) {
@@ -684,7 +700,7 @@
                     var w = selected.parentElement.offsetWidth;
                     var h = selected.parentElement.offsetHeight;
                     selected.style.flex = '';
-                    window.requestAnimationFrame(function () {
+                    window.requestAnimationFrame(function() {
                         if (w > 0 && w < h) {
                             selected.style.height = w + 'px';
                         } else if (h > 0) {
@@ -692,19 +708,19 @@
                         }
                     });
                 },
-                _resizeHandler: function () {
+                _resizeHandler: function() {
                     this._containerWidth = this.$.calendar.offsetWidth;
                     this._positionSlider();
                     this._updateSelection();
                 },
-                _getDayName: function (date) {
+                _getDayName: function(date) {
                     return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
                 },
-                _updateToday: function () {
+                _updateToday: function() {
                     this.today = new Date();
                     this.today.setHours(0, 0, 0, 0);
                 },
-                _whichTransitionEnd: function () {
+                _whichTransitionEnd: function() {
                     var transitions = {
                         'WebkitTransition': 'webkitTransitionEnd',
                         'MozTransition': 'transitionend',

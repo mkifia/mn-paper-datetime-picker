@@ -60,11 +60,11 @@ If you include this element as part of `paper-dialog`, use the class
 <dom-module id="paper-datetime-picker">
     <template>
         <style>
-            :host * {
-                -webkit-tap-highlight-color: rgba(0,0,0,0);
+             :host * {
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
             }
 
-            :host {
+             :host {
                 display: inline-block;
                 background-color: var(--primary-background-color);
                 -webkit-touch-callout: none;
@@ -77,14 +77,15 @@ If you include this element as part of `paper-dialog`, use the class
                 font-size: 14px;
                 max-width: 100%;
             }
-
             /** Landscape ******************/
+
             #datetimePicker {
                 width: 512px;
                 height: 304px;
                 @apply(--layout-horizontal);
                 @apply(--paper-time-picker);
             }
+
             #heading {
                 width: 180px;
                 padding: 16px 0 16px 10px;
@@ -93,16 +94,17 @@ If you include this element as part of `paper-dialog`, use the class
                 @apply(--layout-vertical);
                 @apply(--paper-time-picker-heading);
             }
+
             #valuePicker {
                 padding: 20px;
-
             }
+
             #heading .day {
                 letter-spacing: 0.2ex !important;
             }
-
             /** Narrow *********************/
-            :host([narrow]) #datetimePicker {
+
+             :host([narrow]) #datetimePicker {
                 max-width: 100%;
                 max-height: 100%;
                 width: 328px;
@@ -110,83 +112,83 @@ If you include this element as part of `paper-dialog`, use the class
                 @apply(--layout-vertical);
             }
 
-            :host([narrow]) #heading {
+             :host([narrow]) #heading {
                 width: auto;
                 height: 96px;
                 padding: 0;
                 @apply(--layout-horizontal);
                 @apply(--layout-end-justified);
             }
-            :host([narrow]) #heading .time {
+
+             :host([narrow]) #heading .time {
                 margin-top: 6px;
-                @apply(--paper-font-display3);
                 font-size: 50px;
                 letter-spacing: 0.1ex !important;
                 padding-top: 25px;
             }
-            :host([narrow]) #heading .date {
+
+             :host([narrow]) #heading .date {
                 font-size: 40px;
                 padding-top: 15px;
                 margin-left: auto;
             }
-            :host([narrow]) #heading .period {
+
+             :host([narrow]) #heading .period {
                 margin-left: 12px;
                 margin-top: 12px;
             }
-            :host([narrow]) #valuePicker {
+
+             :host([narrow]) #valuePicker {
                 padding: 30px 20px 10px;
                 @apply(--paper-time-picker-clock);
             }
 
-            :host([isTouch]) paper-year-list::-webkit-scrollbar {
+             :host([isTouch]) paper-year-list::-webkit-scrollbar {
                 width: 0 !important;
             }
+
             @media screen and (max-width: 400px) {
-                :host([narrow]) #heading {
+                 :host([narrow]) #heading {
                     height: 70px;
                 }
-                :host([narrow]) #datetimePicker #heading .year {
-
+                 :host([narrow]) #datetimePicker #heading .year {
                     font-size: 18px;
                     line-height: 20px;
                 }
-                :host([narrow]) #datetimePicker #heading .day {
-
+                 :host([narrow]) #datetimePicker #heading .day {
                     font-size: 20px;
                     line-height: 20px;
-
                 }
-                :host([narrow]) #datetimePicker #heading .date {
+                 :host([narrow]) #datetimePicker #heading .date {
                     padding-top: 0;
                 }
-
-                :host([narrow]) #datetimePicker #heading .time {
+                 :host([narrow]) #datetimePicker #heading .time {
                     font-size: 30px;
                     padding-top: 10px;
                     width: auto;
                 }
-                :host([narrow]) #datetimePicker {
+                 :host([narrow]) #datetimePicker {
                     width: 288px;
                     height: 350px;
                 }
-
             }
-
             /** Heading ********************/
+
             #heading {
                 color: var(--light-primary-color);
                 background: var(--default-primary-color);
                 @apply(--layout-vertical);
                 @apply(--layout-center-center);
             }
-            #heading > iron-selector {
+
+            #heading>iron-selector {
                 margin-top: 10px;
             }
+
             #heading .time {
                 @apply(--paper-font-display2);
                 @apply(--layout-horizontal);
                 @apply(--layout-end-justified);
-
             }
 
             #heading.AM .AM,
@@ -198,10 +200,12 @@ If you include this element as part of `paper-dialog`, use the class
                 color: var(--text-primary-color);
                 font-weight: bold;
             }
+
             #heading .period {
                 font-weight: 600;
                 @apply(--paper-font-subhead);
             }
+
             #heading .day,
             #heading .hours,
             #heading .minutes,
@@ -214,8 +218,13 @@ If you include this element as part of `paper-dialog`, use the class
             #heading .date {
                 margin-right: auto;
             }
+
             #heading .time {
                 margin-right: auto;
+            }
+
+            #heading .hidden-true {
+                display: none;
             }
 
             #heading .day {
@@ -223,7 +232,6 @@ If you include this element as part of `paper-dialog`, use the class
                 margin-top: 2px;
                 @apply(--paper-date-picker-heading-date);
                 font-size: 30px;
-
             }
 
             #heading .year {
@@ -231,6 +239,7 @@ If you include this element as part of `paper-dialog`, use the class
                 font-size: 16px;
                 @apply(--paper-date-picker-heading-date);
             }
+
             #heading .period {
                 margin-left: 10px;
             }
@@ -246,8 +255,8 @@ If you include this element as part of `paper-dialog`, use the class
                     @apply(--paper-date-picker-calendar);
                 }
             }
-
             /** Clock *********************/
+
             #valuePicker {
                 background: var(--default-background-color);
                 overflow: hidden;
@@ -255,16 +264,17 @@ If you include this element as part of `paper-dialog`, use the class
                 @apply(--paper-time-picker-clock);
                 @apply(--layout-vertical);
             }
-            #valuePicker > div {
+
+            #valuePicker>div {
                 @apply(--layout-flex);
                 position: relative;
                 left: 15px;
-
             }
+
             .clock {
                 @apply(--layout-fit);
-
             }
+
             .clock-animatable {
                 @apply(--layout-fit);
             }
@@ -273,6 +283,9 @@ If you include this element as part of `paper-dialog`, use the class
                 display: none;
             }
 
+            paper-clock-selector {
+                height: 100%;
+            }
         </style>
         <iron-media-query query="{{_getMediaQuery(forceNarrow, responsiveWidth)}}" query-matches="{{_queryMatches}}"></iron-media-query>
 
@@ -284,40 +297,38 @@ If you include this element as part of `paper-dialog`, use the class
                     </div>
                 </div>
                 <div class="time" hidden$="{{notime}}">
-                    <div name="hours" on-tap="_tapHeadingHour" class="hours" hidden$="{{!format24}}">{{hour}}</div>
-                    <div name="hours" on-tap="_tapHeadingHour" class="hours" hidden$="{{format24}}">{{hour12}}</div>
+                    <div name="hours" on-tap="_tapHeadingHour" class="hours">{{dateFormat(datetime, hourHeadingFormat, locale)}}</div>
                     <div class="sep">:</div>
-                    <div name="minutes" on-tap="_tapHeadingMinute" class="minutes">{{_zeroPad(minute, 2)}}</div>
+                    <div name="minutes" on-tap="_tapHeadingMinute" class="minutes">{{dateFormat(datetime, 'mm', locale)}}</div>
                     <div class="period" hidden$="{{format24}}">
                         <div class="AM" name="AM" on-tap="_periodChanged">AM</div>
                         <div class="PM" name="PM" on-tap="_periodChanged">PM</div>
                     </div>
                 </div>
             </div>
-            <neon-animated-pages id="pages" selected="{{_selectedPage}}" attr-for-selected="id" entry-animation="fade-in-animation" exit-animation="fade-out-animation" on-iron-select="_pageSelected">
+            <neon-animated-pages id="pages" class$="{{_selectedPage}} fit" selected="{{_selectedPage}}" attr-for-selected="id" entry-animation="fade-in-animation" exit-animation="fade-out-animation">
                 <neon-animatable id="date">
                     <paper-calendar id="calendar" locale="{{locale}}" date="{{datetime}}" min-date="{{minDate}}" max-date="{{maxDate}}"></paper-calendar>
                 </neon-animatable>
                 <neon-animatable id="year">
                     <paper-year-list id="yearList" date="{{datetime}}" on-tap="_tapHeadingDate" min="[[_minYear]]" max="[[_maxYear]]"></paper-year-list>
                 </neon-animatable>
-                <neon-animatable id="hours" class="clock-animatable">
-                    <paper-clock-selector class="fit" id="hourClock" count="{{hourFormat}}" step="1" animated="[[animated]]" selected="{{hour}}" narrow="[[narrow]]"></paper-clock-selector>
+                <neon-animatable id="hours" class$="clock-animatable">
+                    <paper-clock-selector id="hourClock" count="{{hourFormat}}" step="1" animated="[[animated]]" selected="{{hour}}" narrow="[[narrow]]"></paper-clock-selector>
                 </neon-animatable>
-                <neon-animatable id="minutes" class="clock-animatable">
-                    <paper-clock-selector class="fit" id="minuteClock" count="60" step="5" animated="[[animated]]" use-zero zero-pad selected="{{minute}}" narrow="[[narrow]]"></paper-clock-selector>
+                <neon-animatable id="minutes" class$="clock-animatable">
+                    <paper-clock-selector id="minuteClock" count="60" step="5" animated="[[animated]]" use-zero zero-pad selected="{{minute}}" narrow="[[narrow]]"></paper-clock-selector>
                 </neon-animatable>
             </neon-animated-pages>
         </div>
     </template>
     <script>
-        (function () {
+        (function() {
             function warn() {
                 if (window.console) {
                     console.warn.apply(console, arguments);
                 }
             }
-
             Polymer({
                 is: 'paper-datetime-picker',
                 properties: {
@@ -327,21 +338,24 @@ If you include this element as part of `paper-dialog`, use the class
                     },
                     datetime: {
                         type: Date,
-                        value: function () {
+                        value: function() {
                             var date = new Date();
                             return date;
                         },
                         notify: true,
                         observer: '_dateTimeChanged'
                     },
-
+                    date: {
+                        type: Date,
+                        value: null
+                    },
                     time: {
                         type: String,
                         value: '12:00'
                     },
                     /**
-           * The selected time
-           */
+                     * The selected time
+                     */
                     notime: {
                         type: Boolean,
                         value: false
@@ -350,7 +364,6 @@ If you include this element as part of `paper-dialog`, use the class
                         type: Boolean,
                         value: false
                     },
-
                     /**
                      * Maximum screen width at which the picker uses a vertical layout
                      */
@@ -359,37 +372,44 @@ If you include this element as part of `paper-dialog`, use the class
                         value: '360px'
                     },
                     /**
-                         * The current locale
-                         */
+                     * The current locale
+                     */
                     locale: {
                         type: String,
-                        value: 'en'
+                        value: function() {
+                            var userLang = navigator.language || navigator.userLanguage;
+                            return userLang;
+                        }
                     },
                     /**
-                                 * The format of the date displayed in the heading.
-                                 * See docuemntation for Moment.js for more info.
-                                 */
+                     * The format of the date displayed in the heading.
+                     * See docuemntation for Moment.js for more info.
+                     */
                     headingFormat: {
                         type: String,
                         value: 'MMM D'
                     },
+                    hourHeadingFormat: {
+                        type: String,
+                        value: 'HH'
+                    },
                     /**
-                                   * The minimum allowed date
-                                   */
+                     * The minimum allowed date
+                     */
                     minDate: {
                         type: Date,
                         value: null
                     },
                     /**
-                                   * The maximum allowed date
-                                   */
+                     * The maximum allowed date
+                     */
                     maxDate: {
                         type: Date,
                         value: null
                     },
                     /**
-                                   * Force narrow layout
-                                   */
+                     * Force narrow layout
+                     */
                     forceNarrow: {
                         type: Boolean,
                         value: false
@@ -424,8 +444,8 @@ If you include this element as part of `paper-dialog`, use the class
                         computed: '_getFullYear(minDate)'
                     },
                     /**
-           * The time value as the number of minutes from midnight
-           */
+                     * The time value as the number of minutes from midnight
+                     */
                     rawValue: {
                         type: Number,
                         value: 0,
@@ -433,8 +453,8 @@ If you include this element as part of `paper-dialog`, use the class
                         observer: '_rawValueChanged'
                     },
                     /**
-           * The current 24-hour value (0-24)
-           */
+                     * The current 24-hour value (0-24)
+                     */
                     hour: {
                         type: Number,
                         observer: '_hourChanged',
@@ -442,14 +462,14 @@ If you include this element as part of `paper-dialog`, use the class
                         value: 0
                     },
                     /**
-           * The current 12-hour value (0-12)
-           */
+                     * The current 12-hour value (0-12)
+                     */
                     hour12: {
                         type: Number
                     },
                     /**
-           * The current minute (0-59)
-           */
+                     * The current minute (0-59)
+                     */
                     minute: {
                         type: Number,
                         notify: true,
@@ -457,16 +477,16 @@ If you include this element as part of `paper-dialog`, use the class
                         value: 0
                     },
                     /**
-           * The current period ('AM', 'PM')
-           */
+                     * The current period ('AM', 'PM')
+                     */
                     period: {
                         type: String,
                         notify: true,
                         value: 'AM'
                     },
                     /**
-           * The current selector view ('hours' or 'minutes')
-           */
+                     * The current selector view ('hours' or 'minutes')
+                     */
                     view: {
                         type: String,
                         notify: true,
@@ -474,22 +494,22 @@ If you include this element as part of `paper-dialog`, use the class
                         observer: '_viewChanged'
                     },
                     /**
-           * Maximum screen width at which the picker uses a vertical layout
-           */
+                     * Maximum screen width at which the picker uses a vertical layout
+                     */
                     responsiveWidth: {
                         type: String,
                         value: '560px'
                     },
                     /**
-           * Force narrow layout
-           */
+                     * Force narrow layout
+                     */
                     forceNarrow: {
                         type: Boolean,
                         value: false
                     },
                     /**
-           * Whether or not to animate the clock hand between selections
-           */
+                     * Whether or not to animate the clock hand between selections
+                     */
                     animated: {
                         type: Boolean,
                         value: false
@@ -509,6 +529,10 @@ If you include this element as part of `paper-dialog`, use the class
                         type: Boolean,
                         value: false,
                         observer: '_computeNarrow'
+                    },
+                    isReady: {
+                        type: Boolean,
+                        value: false
                     }
                 },
                 behaviors: [Polymer.IronResizableBehavior],
@@ -517,12 +541,11 @@ If you include this element as part of `paper-dialog`, use the class
                     'paper-clock-selected': '_onClockSelected',
                     'paper-date-selected': '_onDateSelected'
                 },
-                ready: function () {
+                ready: function() {
                     this.isTouch = 'ontouchstart' in window;
                     if (this.nodate) {
                         this.view = 'hours';
                     }
-
                     if (this.locale === 'de') {
                         this.format24 = true;
                     } else {
@@ -530,50 +553,58 @@ If you include this element as part of `paper-dialog`, use the class
                     }
                     if (this.format24) {
                         this.hourFormat = 24;
+                        this.hourHeadingFormat = 'HH';
                     } else {
                         this.hourFormat = 12;
+                        this.hourHeadingFormat = 'h';
                     }
-
-                    var parsed = this.parseTime(this.dateTime);
+                    var parsed = this.parseTime(this.datetime);
                     this.hour = parsed.hour;
                     this.minute = parsed.minute;
                     this.time = this.formatTime(parsed.hour, parsed.minute);
                     this.rawValue = (parsed.hour * 60) + parsed.minute;
+                    this.isReady = true;
                 },
-                dateFormat: function () {
-                    return this.$.calendar.dateFormat.apply(this.$.calendar, arguments);
+                setDate: function(date) {
+                    this.datetime = date;
+                    this.hour = date.getHours();
+                    this.minute = date.getMinutes();
                 },
-                _tapHeadingDate: function () {
+                dateFormat: function() {
+                    var formatted = this.$.calendar.dateFormat.apply(this.$.calendar, arguments);
+                    return formatted;
+                },
+                _tapHeadingDate: function() {
                     if (this.$.pages.selected !== 'date') {
                         this._selectPage('date');
                     }
                 },
-                _tapHeadingYear: function () {
+                _tapHeadingYear: function() {
                     if (this.$.pages.selected !== 'year') {
                         this._selectPage('year');
                         this.$.yearList.centerSelected();
                     }
                 },
-                _tapHeadingHour: function (value) {
+                _tapHeadingHour: function(value) {
                     if (this.$.pages.selected !== 'hours') {
                         this._selectPage('hours');
                     }
                 },
-                _tapHeadingMinute: function () {
+                _tapHeadingMinute: function() {
                     if (this.$.pages.selected !== 'minutes') {
                         this._selectPage('minutes');
                     }
                 },
-                _selectPage: function (page) {
+                _selectPage: function(page) {
                     this.$.pages.selected = page;
                     this.view = page;
                 },
-                _getFullYear: function (date) {
-                    return date
-                        ? date.getFullYear()
-                        : null;
+                _getFullYear: function(date) {
+                    return date ?
+                        date.getFullYear() :
+                        null;
                 },
-                _splitHeadingDate: function (date, format, locale) {
+                _splitHeadingDate: function(date, format, locale) {
                     var re = new RegExp(this.headingBreak, 'g');
                     var text = this.dateFormat(date, format, locale);
                     var seps = text.match(re);
@@ -581,25 +612,27 @@ If you include this element as part of `paper-dialog`, use the class
                     if (!seps) {
                         value = [text];
                     } else {
-                        value = text.split(re).map(function (s, i) {
+                        value = text.split(re).map(function(s, i) {
                             return s + (seps[i] || '');
                         });
                     }
                     return value;
                 },
-                _dateTimeChanged: function (dateTime) {
+                _dateTimeChanged: function(dateTime) {
                     if (!dateTime) {
                         this.rawValue = 0;
                         return;
+                    } {
+                        this.date = dateTime;
                     }
                 },
-                _updateTime: function (hour, minute) {
+                _updateTime: function(hour, minute) {
                     this.rawValue = (hour * 60) + minute;
                 },
-                formatTime: function (hour, minute) {
-                    var period = (hour % 24) < 12
-                        ? 'AM'
-                        : 'PM';
+                formatTime: function(hour, minute) {
+                    var period = (hour % 24) < 12 ?
+                        'AM' :
+                        'PM';
                     if (!this.format24) {
                         hour = hour % 12 || 12;
                         minute = ('0' + minute).substr(-2);
@@ -608,7 +641,7 @@ If you include this element as part of `paper-dialog`, use the class
                         return hour + ':' + minute;
                     }
                 },
-                parseTime: function (datetime) {
+                parseTime: function(datetime) {
                     var date = new Date();
                     var hour = date.getHours();
                     var minute = date.getMinutes();
@@ -616,52 +649,56 @@ If you include this element as part of `paper-dialog`, use the class
                         hour = datetime.getHours();
                         minute = datetime.getMinutes();
                     }
-                    return {hour: hour, minute: minute};
+                    return {
+                        hour: hour,
+                        minute: minute
+                    };
                 },
-                togglePeriod: function () {
-                    this.period = (this.period === 'AM')
-                        ? 'PM'
-                        : 'AM';
+                togglePeriod: function() {
+                    this.period = (this.period === 'AM') ?
+                        'PM' :
+                        'AM';
                 },
-                _rawValueChanged: function (value, oldValue) {
+                _rawValueChanged: function(value, oldValue) {
                     if (isNaN(parseInt(value))) {
                         this.rawValue = oldValue;
                         return;
                     }
                 },
-                _hour12Changed: function (hour12) {
-                    var add = (this.period === 'PM'
-                        ? 12
-                        : 0);
+                _hour12Changed: function(hour12) {
+                    var add = (this.period === 'PM' ?
+                        12 :
+                        0);
                 },
-                _hourChanged: function (hour, oldVaue) {
-                    hour = parseInt(hour);
-                    if (isNaN(hour) && !hour) {
-                        return;
+                _hourChanged: function(hour, oldVaue) {
+                    if (this.isReady) {
+                        hour = parseInt(hour);
+                        if (isNaN(hour) && !hour) {
+                            return;
+                        }
+                        if (isNaN(hour)) {
+                            warn('Invalid number:', hour);
+                            this.hour = oldVaue;
+                            return;
+                        }
+                        hour = parseFloat(hour) % 24;
+                        if (hour < 10 && this.format24) {
+                            hour = "0" + hour;
+                        }
+                        this.hour12 = this._twelveHour(hour);
+                        this.datetime.setHours(hour);
+                        this.time = this.formatTime(hour, this.minute);
                     }
-                    if (isNaN(hour)) {
-                        warn('Invalid number:', hour);
-                        this.hour = oldVaue;
-                        return;
-                    }
-                    hour = parseFloat(hour) % 24;
-                    if (hour < 10 && this.format24) {
-                        hour = "0" + hour;
-                    }
-
-                    this.hour12 = this._twelveHour(hour);
-                    this.datetime.setHours(hour);
-                    this.time = this.formatTime(hour, this.minute);
-
                 },
-                _minuteChanged: function (minute) {
-                    minute = parseFloat(minute) % 60;
-                    this.minute = minute;
-                    this.datetime.setMinutes(minute);
-                    this.time = this.formatTime(this.hour, minute);
-
+                _minuteChanged: function(minute) {
+                    if (this.isReady) {
+                        minute = parseFloat(minute) % 60;
+                        this.minute = minute;
+                        this.datetime.setMinutes(minute);
+                        this.time = this.formatTime(this.hour, minute);
+                    }
                 },
-                _periodChanged: function (period) {
+                _periodChanged: function(period) {
                     if (isNaN(parseInt(this.hour)) || isNaN(parseInt(this.minute))) {
                         return;
                     }
@@ -682,29 +719,28 @@ If you include this element as part of `paper-dialog`, use the class
                         }
                     }
                 },
-                _zeroPad: function (value, length) {
+                _zeroPad: function(value, length) {
                     if (value === undefined || isNaN(value) || isNaN(length)) {
                         return;
                     }
                     return ('0' + value).substr(-length);
                 },
-                _twelveHour: function (hour) {
+                _twelveHour: function(hour) {
                     return hour % 12 || 12;
                 },
-                _isEqual: function (a, b) {
+                _isEqual: function(a, b) {
                     return a === b;
                 },
-                _getMediaQuery: function (forceNarrow, responsiveWidth) {
-                    return '(max-width: ' + (forceNarrow
-                        ? ''
-                        : responsiveWidth) + ')';
+                _getMediaQuery: function(forceNarrow, responsiveWidth) {
+                    return '(max-width: ' + (forceNarrow ?
+                        '' :
+                        responsiveWidth) + ')';
                 },
-                _computeNarrow: function () {
+                _computeNarrow: function() {
                     this.set('narrow', this._queryMatches || this.forceNarrow);
                 },
-                _viewChanged: function (toView, fromView) {
+                _viewChanged: function(toView, fromView) {
                     this.$.pages._notifyPageResize();
-
                     switch (toView) {
                         case 'date':
                             this._tapHeadingDate();
@@ -722,14 +758,11 @@ If you include this element as part of `paper-dialog`, use the class
                             break;
                         default:
                             this._tapHeadingDate();
-
                     }
-
                     // prevent the clock-hand transition when selecting, otherwise the extra movement would be confusing
                     if (this._selecting || !fromView || !toView || !this.animated) {
                         return;
                     }
-
                     var clocks = {
                         'hours': this.$.hourClock,
                         'minutes': this.$.minuteClock
@@ -740,82 +773,80 @@ If you include this element as part of `paper-dialog`, use the class
                     }
                     var to = clocks[toView];
                     var fromAngle = (360 / from.count) * from.selected;
-
                     if (from.count == 24) {
                         fromAngle = (360 / (from.count / 2)) * from.selected;
-
                     }
                     var toAngle = (360 / to.count) * to.selected;
-
                     if (to.count == 24) {
                         var toAngle = (360 / (to.count / 2)) * to.selected;
-
                     }
-
                     // transition both clock hands at the same time
                     to.setClockHand(fromAngle, false);
                     from.setClockHand(toAngle);
-
-                    this.async(function () {
-                        to.setClockHand(toAngle, true, function () {
-                            this.async(function () {
+                    this.async(function() {
+                        to.setClockHand(toAngle, true, function() {
+                            this.async(function() {
                                 from.setClockHand(fromAngle, false);
                             }, 200);
                         }.bind(this));
                     }.bind(this));
                 },
-                _onClockSelected: function (event) {
+                _onClockSelected: function(event) {
                     if (this.view === 'hours') {
-
-                        var showMinutes = function () {
-                            this.async(function () {
+                        var showMinutes = function() {
+                            this.async(function() {
                                 this._selecting = true;
                                 this.view = 'minutes';
                                 this._selecting = false;
                             }.bind(this), 100);
                             this.$.hourClock.removeEventListener('paper-clock-transition-end', showMinutes);
                         }.bind(this);
-
                         if (event.detail.animated) {
                             this.$.hourClock.addEventListener('paper-clock-transition-end', showMinutes);
                         } else {
                             showMinutes();
                         }
-
                         if (this.hour12 !== event.detail.value) {
                             this.hour12 = event.detail.value;
                         }
                         showMinutes();
-
                     }
+                    var newDatetime = new Date(this.datetime);
+                    newDatetime.setMinutes(this.minute);
+                    if (this.hour === 24) {
+                        newDatetime.setDate(newDatetime.getDate() - 1);
+                    }
+                    newDatetime.setHours(this.hour);
+                    this.datetime = newDatetime;
                 },
-                _onDateSelected: function () {
+                _onDateSelected: function() {
                     if (!this.notime) {
-                        this.datetime.setHours(this.hour);
-                        this.datetime.setMinutes(this.minute);
                         this._tapHeadingHour();
+                    } else {
+                        this.datetime.setHours(0, 0, 0, 0);
                     }
                 },
-                _resizeHandler: function () {
+                _resizeHandler: function() {
+                    if (!this.offsetWidth && this.$.pages.selected !== 'date') {
+                        this._selectPage('date');
+                    }
                     if (!this.offsetWidth || this._resizing) {
                         return;
                     }
                     this.updateStyles();
-                    this.async(function () {
+                    this.async(function() {
                         this._resizing = true;
                         this.$.pages._notifyPageResize();
                         this._resizing = false;
                     }.bind(this));
                 },
-                _pageSelected: function () {
+                _pageSelected: function() {
                     this._resizeHandler();
                 },
-                _getHeadingClass: function (pfx, selectedPage) {
+                _getHeadingClass: function(pfx, selectedPage) {
                     return pfx + ' pg-' + selectedPage;
                 }
             });
         })();
     </script>
-</dom-module>
->
 </dom-module>
