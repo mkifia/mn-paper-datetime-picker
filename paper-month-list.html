@@ -115,7 +115,6 @@
             centerSelected: function() {
                 if (this.selected !== null) {
                     var selectedMonthIdx = this.selected - this.min;
-                    console.log(this.$.monthList);
                     this.$.monthList.scrollToIndex(selectedMonthIdx);
                     this.async(function() {
                         var selectedPos = selectedMonthIdx * this._physicalAverage + 1;
