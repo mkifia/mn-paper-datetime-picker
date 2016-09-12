@@ -288,6 +288,9 @@ If you include this element as part of `paper-dialog`, use the class
             paper-clock-selector {
                 height: 100%;
             }
+            .hidden-true {
+                display: none;
+            }
         </style>
         <iron-media-query query="{{_getMediaQuery(forceNarrow, responsiveWidth)}}" query-matches="{{_queryMatches}}"></iron-media-query>
 
@@ -298,7 +301,7 @@ If you include this element as part of `paper-dialog`, use the class
                     <div class="day" on-tap="_tapHeadingDate" name="date">{{dateFormat(datetime, headingFormat, locale)}}
                     </div>
                 </div>
-                <div class="time" hidden$="{{notime}}">
+                <div class$="time hidden-{{notime}}">
                     <div name="hours" on-tap="_tapHeadingHour" class="hours">{{dateFormat(datetime, hourHeadingFormat, locale)}}</div>
                     <div class="sep">:</div>
                     <div name="minutes" on-tap="_tapHeadingMinute" class="minutes">{{dateFormat(datetime, 'mm', locale)}}</div>
