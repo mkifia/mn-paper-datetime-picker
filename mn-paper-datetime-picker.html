@@ -18,6 +18,7 @@
 <link rel="import" href="paper-datetime-picker-dialog-style.html">
 <link rel="import" href="paper-calendar.html">
 <link rel="import" href="paper-year-list.html">
+<link rel="import" href="paper-month-list.html">
 
 <!--
 
@@ -196,7 +197,8 @@ If you include this element as part of `paper-dialog`, use the class
             #heading.pg-date .day,
             #heading.pg-hours .hours,
             #heading.pg-minutes .minutes,
-            #heading.pg-year .year {
+            #heading.pg-year .year,
+            #heading.pg-months .day {
                 color: var(--text-primary-color);
                 font-weight: bold;
             }
@@ -309,6 +311,9 @@ If you include this element as part of `paper-dialog`, use the class
             <neon-animated-pages id="pages" class$="{{_selectedPage}} fit" selected="{{_selectedPage}}" attr-for-selected="id" entry-animation="fade-in-animation" exit-animation="fade-out-animation">
                 <neon-animatable id="date">
                     <paper-calendar id="calendar" locale="{{locale}}" date="{{datetime}}" min-date="{{minDate}}" max-date="{{maxDate}}"></paper-calendar>
+                </neon-animatable>
+                <neon-animatable id="months">
+                    <paper-month-list id="monthList" locale="{{locale}}" on-tap="_tapHeadingDate" date="{{datetime}}" min="[[_minMonth]]" max="[[_maxMonth]]"></paper-month-list>
                 </neon-animatable>
                 <neon-animatable id="year">
                     <paper-year-list id="yearList" date="{{datetime}}" on-tap="_tapHeadingDate" min="[[_minYear]]" max="[[_maxYear]]"></paper-year-list>
@@ -443,6 +448,14 @@ If you include this element as part of `paper-dialog`, use the class
                         type: Number,
                         computed: '_getFullYear(minDate)'
                     },
+                    _maxMonth: {
+                        type: Number,
+                        computed: '_getFullMonth(maxDate)'
+                    },
+                    _minMonth: {
+                        type: Number,
+                        computed: '_getFullMonth(minDate)'
+                    },
                     /**
                      * The time value as the number of minutes from midnight
                      */
@@ -539,7 +552,9 @@ If you include this element as part of `paper-dialog`, use the class
                 listeners: {
                     'iron-resize': '_resizeHandler',
                     'paper-clock-selected': '_onClockSelected',
-                    'paper-date-selected': '_onDateSelected'
+                    'paper-date-selected': '_onDateSelected',
+                    'paper-switch-month': '_tapHeadingMonth',
+                    'paper-month-selected': '_'
                 },
                 ready: function() {
                     this.isTouch = 'ontouchstart' in window;
@@ -577,6 +592,11 @@ If you include this element as part of `paper-dialog`, use the class
                 _tapHeadingDate: function() {
                     if (this.$.pages.selected !== 'date') {
                         this._selectPage('date');
+                    } else {
+                        // tapping the date header while already viewing months brings you back
+                        // to the selected month
+                        this.$.calendar.currentMonth = this.date.getMonth() + 1;
+                        this.$.calendar.currentYear = this.date.getFullYear();
                     }
                 },
                 _tapHeadingYear: function() {
@@ -595,6 +615,12 @@ If you include this element as part of `paper-dialog`, use the class
                         this._selectPage('minutes');
                     }
                 },
+                _tapHeadingMonth: function() {
+                    if (this.$.pages.selected !== 'months') {
+                        this._selectPage('months');
+                        this.$.monthList.centerSelected();
+                    }
+                },
                 _selectPage: function(page) {
                     this.$.pages.selected = page;
                     this.view = page;
@@ -603,6 +629,9 @@ If you include this element as part of `paper-dialog`, use the class
                     return date ?
                         date.getFullYear() :
                         null;
+                },
+                _getFullMonth: function(date) {
+                    return date ? date.getMonth() : null;
                 },
                 _splitHeadingDate: function(date, format, locale) {
                     var re = new RegExp(this.headingBreak, 'g');
@@ -755,6 +784,10 @@ If you include this element as part of `paper-dialog`, use the class
                             break;
                         case 'minutes':
                             this._tapHeadingMinute();
+                            break;
+                        case 'months':
+                            this._tapHeadingMonth();
+                            return;
                             break;
                         default:
                             this._tapHeadingDate();

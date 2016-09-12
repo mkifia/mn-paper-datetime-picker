@@ -99,7 +99,9 @@
                 @apply(--layout-vertical);
                 @apply(--layout-center-center);
             }
-            .month-nav .btn .icon {
+            .month-nav .btn .icon,
+            .flex-2
+             {
                 cursor: pointer;
             }
             .month-nav .btn .ripple {
@@ -177,8 +179,10 @@
             .flex {
                 @apply(--layout-flex);
             }
-            .flex-5 {
-                @apply(--layout-flex-5);
+            .flex-2 {
+                @apply(--layout-flex-2);
+                height:100%;
+                margin:22%;
             }
 
         </style>
@@ -187,7 +191,7 @@
                 <template is="dom-repeat" items="{{_months}}" as="month">
                     <div class$="{{_getMonthClass('month', month)}}">
                         <div class="month-row month-name">
-                            <span>{{dateFormat(month.date, 'MMMM YYYY', locale)}}</span>
+                            <div class="monthselector">{{dateFormat(month.date, 'MMMM YYYY', locale)}}</div>
                         </div>
                         <div class="month-row month-weekdays week">
                             <template is="dom-repeat" items="{{_weekdays}}">
@@ -217,7 +221,7 @@
                 <iron-icon class="icon flex" icon="chevron-left"></iron-icon>
             </div>
         </div>
-        <div class="flex-5"></div>
+        <div class="flex-2" on-tap="_tapMonth"></div>
         <div class="flex col self-stretch">
             <div class="btn" on-tap="_swipeNextMonth">
                 <paper-ripple center class="ripple circle"></paper-ripple>
@@ -407,11 +411,15 @@
                 },
                 _getDayClass: function(cssClass, date) {
                     if (date) {
-                        var timestamp = date.getTime();
+                        var checkDate = new Date(date);
+                        checkDate.setHours(0, 0, 0, 0);
+                        var timestamp = checkDate.getTime();
                         if (timestamp === this.today.getTime()) {
                             cssClass += ' today';
                         }
-                        if (timestamp === this.date.getTime()) {
+                        var onlyDate = new Date(this.date);
+                        onlyDate.setHours(0, 0, 0, 0);
+                        if (timestamp === onlyDate.getTime()) {
                             cssClass += ' selected';
                             this.async(function() {
                                 this._updateSelection();
@@ -665,6 +673,9 @@
                             animated: this.animated
                         });
                     }
+                },
+                _tapMonth: function(event) {
+                    this.fire('paper-switch-month');
                 },
                 _isValidDate: function(date) {
                     return date && date.getTime && !isNaN(date.getTime());

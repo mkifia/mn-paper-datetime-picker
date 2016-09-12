@@ -5,7 +5,7 @@
 <link rel="import" href="../paper-styles/default-theme.html">
 <link rel="import" href="../polymer/polymer.html">
 
-<dom-module id="paper-year-list">
+<dom-module id="paper-month-list">
     <template>
         <style>
             :host {
@@ -16,10 +16,10 @@
                 /* for iron-list to fit */
                 position: relative;
             }
-            .year {
+            .month {
                 cursor: pointer;
-                height: var(--paper-year-list-item-height, 44px);
-                line-height: var(--paper-year-list-item-height, 44px);
+                height: var(--paper-month-list-item-height, 44px);
+                line-height: var(--paper-month-list-item-height, 44px);
                 text-align: center;
                 vertical-align: middle;
             }
@@ -27,22 +27,25 @@
                 color: var(--default-primary-color);
                 font-size: 24px;
             }
+            .today {
+                color: var(--default-primary-color);
+            }
             iron-list {
                 @apply(--layout-fit);
             }
 
         </style>
-        <iron-list id="yearList" items="[[_years]]">
+        <iron-list id="monthList" items="[[_months]]">
             <template>
-                <div class$="year{{_addSelectedClass(selected)}}" on-tap="_tappedYearHandler">
-                    [[item.year]]
+                <div class$="month{{_addSelectedClass(selected, item)}} Month{{item.id}}" id$="Month{{item.id}}" on-tap="_tappedMonthHandler">
+                    {{dateFormat(item.month, 'MMMM', locale)}}
                 </div>
             </template>
     </iron-list>
     </template>
     <script>
         Polymer({
-            is: 'paper-year-list',
+            is: 'paper-month-list',
             properties: {
                 date: {
                     type: Date,
@@ -50,24 +53,31 @@
                     observer: '_dateChange'
                 },
                 /**
-                 * Maximum allowed year.
+                 * Maximum allowed month.
                  */
                 max: {
                     type: Number,
-                    value: 2100,
+                    value: 11,
                     observer: '_maxChange'
                 },
                 /**
-                 * Minimum allowed year.
+                 * Minimum allowed month.
                  */
                 min: {
                     type: Number,
-                    value: 1900,
+                    value: 0,
                     observer: '_minChange'
                 },
                 /**
-                 * The selected year, sync with the year of the given date
-                 * or null if year isn't within range.
+                 * The current locale
+                 */
+                locale: {
+                    type: String,
+                    value: 'en'
+                },
+                /**
+                 * The selected month, sync with the month of the given date
+                 * or null if month isn't within range.
                  */
                 selected: {
                     type: Number,
@@ -75,20 +85,21 @@
                     observer: '_selectedChange'
                 },
                 /**
-                 * The allowed years array.
+                 * The allowed months array.
                  */
-                _years: {
+                _months: {
                     type: Array,
-                    computed: '_computeYears(min, max)',
+                    computed: '_computeMonths(min, max)',
                     readOnly: true,
                     value: function() {
                         return Date.now().getFullYear;
                     }
+
                 }
             },
             ready: function() {
                 // hack for iron-list not to scroll to the first visible index on resize
-                this.$.yearList._resizeHandler = function() {
+                this.$.monthList._resizeHandler = function() {
                     this.debounce('resize', function() {
                         this._render();
                         if (this._itemsRendered && this._physicalItems && this._isVisible) {
@@ -96,67 +107,75 @@
                             this.updateViewportBoundaries();
                         }
                     });
-                }.bind(this.$.yearList);
+                }.bind(this.$.monthList);
             },
             /**
-             * Scroll in the years list to center the selected year.
+             * Scroll in the months list to center the selected month.
              */
             centerSelected: function() {
                 if (this.selected !== null) {
-                    var selectedYearIdx = this.selected - this.min;
-                    this.$.yearList.scrollToIndex(selectedYearIdx);
+                    var selectedMonthIdx = this.selected - this.min;
+                    console.log(this.$.monthList);
+                    this.$.monthList.scrollToIndex(selectedMonthIdx);
                     this.async(function() {
-                        var selectedPos = selectedYearIdx * this._physicalAverage + 1;
+                        var selectedPos = selectedMonthIdx * this._physicalAverage + 1;
                         if (selectedPos !== this.scrollTop) {
-                            this._update();
                             this.scrollTop = selectedPos;
                         }
                         if (this.scrollHeight - this.offsetHeight !== this.scrollTop) {
                             this.scrollTop += (this._physicalAverage - this.offsetHeight) / 2;
                         }
-                    }.bind(this.$.yearList));
+                    }.bind(this.$.monthList));
                 }
             },
             /**
              * Return the selected class if needed.
              */
-            _addSelectedClass: function(selected) {
+            _addSelectedClass: function(selected, item) {
                 if (selected) {
                     return ' selected';
                 }
+                var now = new Date();
+                if (item.month.getMonth() === now.getMonth()) {
+                    return ' today';
+                }
             },
             /**
-             * Compute the years array passed to the iron-list.
+             * Compute the months array passed to the iron-list.
              */
-            _computeYears: function(min, max) {
+            _computeMonths: function(min, max) {
                 if (typeof min !== 'number' || typeof max !== 'number') {
                     return;
                 }
-                var years = [];
+                var months = [];
                 for (; min <= max; min++) {
-                    years.push({
-                        year: min
+                    var tmpDate = new Date('01.01.2000');
+                    tmpDate.setMonth(min);
+                    months.push({
+                        month: tmpDate,
+                        id: min
                     });
                 }
-                return years;
+                return months;
             },
             /**
-             * Set 'selected' attribute to the new date's year if it is within range, else set it to null.
+             * Set 'selected' attribute to the new date's month if it is within range, else set it to null.
              */
             _dateChange: function(date) {
-                var newYear = date.getFullYear();
-                this.selected = this._withinRange(newYear) ?
-                    newYear :
+                var newMonth = date.getMonth();
+                this.selected = this._withinRange(newMonth) ?
+                    newMonth :
                     null;
+
             },
             _maxChange: function(max) {
                 if (typeof max !== 'number') {
-                    this.max = 2100;
+                    this.max = 11;
                 }
             },
             _minChange: function(min) {
                 if (typeof min !== 'number') {
-                    this.min = 1900;
+                    this.min = 0;
                 }
             },
             /**
@@ -165,39 +184,47 @@
              */
             _selectedChange: function(selected) {
                 if (selected === null) {
-                    this.$.yearList.clearSelection();
+                    this.$.monthList.clearSelection();
                     return;
                 }
-                if (selected !== this.date.getFullYear()) {
-                    // set the year using a new Date instance for notifying to work
-                    this.date = new Date(this.date.setFullYear(selected));
+                if (selected !== this.date.getMonth()) {
+                    // set the month using a new Date instance for notifying to work
+                    this.date = new Date(this.date.setMonth(selected));
                 }
-                this._selectYearInList(selected);
+                this._selectMonthInList(selected);
             },
             /**
-             * Select the given year in the years list.
+             * Select the given month in the months list.
              */
-            _selectYearInList: function(year) {
-                var yearIdx = year - this.min;
-                this.$.yearList.selectItem(yearIdx);
+            _selectMonthInList: function(month) {
+                var monthIdx = month - this.min;
+                this.$.monthList.selectItem(monthIdx);
             },
             /**
              * Update 'selected' attribute and select in iron-list
-             * from a tapped item's event in the years list.
+             * from a tapped item's event in the months list.
              */
-            _tappedYearHandler: function(e) {
-                var yearItem = e.model.__data__.item;
-                var year = yearItem.year;
-                if (this.selected !== year) {
-                    this.$.yearList.selectItem(yearItem);
-                    this.selected = year;
+            _tappedMonthHandler: function(e) {
+                var monthItem = e.model.__data__.item;
+                var month = monthItem.id;
+                if (this.min !== month) {
+                    this.$.monthList.selectItem(monthItem);
+                    this.selected = month;
                 }
             },
+            dateFormat: function(date, format, locale) {
+                if (!date) {
+                    return '';
+                }
+                var value = moment(date);
+                value.locale(locale || this.locale);
+                return value.format(format);
+            },
             /**
-             * Return true if year is between min and max.
+             * Return true if month is between min and max.
              */
-            _withinRange: function(year) {
-                return !(this.min && year < this.min || this.max && year > this.max);
+            _withinRange: function(month) {
+                return !(this.min && month < this.min || this.max && month > this.max);
             },
             behaviors: [Polymer.IronResizableBehavior]
         });
