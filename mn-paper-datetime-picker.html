@@ -60,276 +60,277 @@ If you include this element as part of `paper-dialog`, use the class
 
 <dom-module id="paper-datetime-picker">
     <template>
-        <style>
-             :host * {
-                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-            }
+    <style>
+    :host * {
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
 
-             :host {
-                display: inline-block;
-                background-color: var(--primary-background-color);
-                -webkit-touch-callout: none;
-                -webkit-user-select: none;
-                -khtml-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-                @apply(--paper-font-body1);
-                font-size: 14px;
-                max-width: 100%;
-            }
-            /** Landscape ******************/
+    :host {
+      display: inline-block;
+      background-color: var(--primary-background-color);
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      @apply(--paper-font-body1);
+      font-size: 14px;
+      max-width: 100%;
+    }
+    /** Landscape ******************/
 
-            #datetimePicker {
-                width: 512px;
-                height: 304px;
-                @apply(--layout-horizontal);
-                @apply(--paper-time-picker);
-            }
+    #datetimePicker {
+      width: 512px;
+      height: 304px;
+      @apply(--layout-horizontal);
+      @apply(--paper-time-picker);
+    }
 
-            #heading {
-                width: 180px;
-                padding: 16px 0 16px 10px;
-                height: 108%;
-                display: flex;
-                @apply(--layout-vertical);
-                @apply(--paper-time-picker-heading);
-            }
+    #heading {
+      width: 180px;
+      padding: 16px 0 16px 10px;
+      height: 108%;
+      display: flex;
+      @apply(--layout-vertical);
+      @apply(--paper-time-picker-heading);
+    }
 
-            #valuePicker {
-                padding: 20px;
-            }
+    #valuePicker {
+      padding: 20px;
+    }
 
-            #heading .day {
-                letter-spacing: 0.2ex !important;
-            }
-            /** Narrow *********************/
+    #heading .day {
+      letter-spacing: 0.2ex !important;
+    }
+    /** Narrow *********************/
 
-             :host([narrow]) #datetimePicker {
-                max-width: 100%;
-                max-height: 100%;
-                width: 328px;
-                height: 428px;
-                @apply(--layout-vertical);
-            }
+    :host([narrow]) #datetimePicker {
+      max-width: 100%;
+      max-height: 100%;
+      width: 328px;
+      height: 428px;
+      @apply(--layout-vertical);
+    }
 
-             :host([narrow]) #heading {
-                width: auto;
-                height: 96px;
-                padding: 0;
-                @apply(--layout-horizontal);
-                @apply(--layout-end-justified);
-            }
+    :host([narrow]) #heading {
+      width: auto;
+      height: 96px;
+      padding: 0;
+      @apply(--layout-horizontal);
+      @apply(--layout-end-justified);
+    }
 
-             :host([narrow]) #heading .time {
-                margin-top: 6px;
-                font-size: 50px;
-                letter-spacing: 0.1ex !important;
-                padding-top: 25px;
-            }
+    :host([narrow]) #heading .time {
+      margin-top: 6px;
+      font-size: 50px;
+      letter-spacing: 0.1ex !important;
+      padding-top: 25px;
+    }
 
-             :host([narrow]) #heading .date {
-                font-size: 40px;
-                padding-top: 15px;
-                margin-left: auto;
-            }
+    :host([narrow]) #heading .date {
+      font-size: 40px;
+      padding-top: 15px;
+      margin-left: auto;
+    }
 
-             :host([narrow]) #heading .period {
-                margin-left: 12px;
-                margin-top: 12px;
-            }
+    :host([narrow]) #heading .period {
+      margin-left: 12px;
+      margin-top: 12px;
+    }
 
-             :host([narrow]) #valuePicker {
-                padding: 30px 20px 10px;
-                @apply(--paper-time-picker-clock);
-            }
+    :host([narrow]) #valuePicker {
+      padding: 30px 20px 10px;
+      @apply(--paper-time-picker-clock);
+    }
 
-             :host([isTouch]) paper-year-list::-webkit-scrollbar {
-                width: 0 !important;
-            }
+    :host([isTouch]) paper-year-list::-webkit-scrollbar {
+      width: 0 !important;
+    }
 
-            @media screen and (max-width: 400px) {
-                 :host([narrow]) #heading {
-                    height: 70px;
-                }
-                 :host([narrow]) #datetimePicker #heading .year {
-                    font-size: 18px;
-                    line-height: 20px;
-                }
-                 :host([narrow]) #datetimePicker #heading .day {
-                    font-size: 20px;
-                    line-height: 20px;
-                }
-                 :host([narrow]) #datetimePicker #heading .date {
-                    padding-top: 0;
-                }
-                 :host([narrow]) #datetimePicker #heading .time {
-                    font-size: 30px;
-                    padding-top: 10px;
-                    width: auto;
-                }
-                 :host([narrow]) #datetimePicker {
-                    width: 288px;
-                    height: 350px;
-                }
-            }
-            /** Heading ********************/
+    @media screen and (max-width: 400px) {
+      :host([narrow]) #heading {
+        height: 70px;
+      }
+      :host([narrow]) #datetimePicker #heading .year {
+        font-size: 18px;
+        line-height: 20px;
+      }
+      :host([narrow]) #datetimePicker #heading .day {
+        font-size: 20px;
+        line-height: 20px;
+      }
+      :host([narrow]) #datetimePicker #heading .date {
+        padding-top: 0;
+      }
+      :host([narrow]) #datetimePicker #heading .time {
+        font-size: 30px;
+        padding-top: 10px;
+        width: auto;
+      }
+      :host([narrow]) #datetimePicker {
+        width: 288px;
+        height: 350px;
+      }
+    }
+    /** Heading ********************/
 
-            #heading {
-                color: var(--light-primary-color);
-                background: var(--default-primary-color);
-                @apply(--layout-vertical);
-                @apply(--layout-center-center);
-            }
+    #heading {
+      color: var(--light-primary-color);
+      background: var(--default-primary-color);
+      @apply(--layout-vertical);
+      @apply(--layout-center-center);
+    }
 
-            #heading>iron-selector {
-                margin-top: 10px;
-            }
+    #heading>iron-selector {
+      margin-top: 10px;
+    }
 
-            #heading .time {
-                @apply(--paper-font-display2);
-                @apply(--layout-horizontal);
-                @apply(--layout-end-justified);
-            }
+    #heading .time {
+      @apply(--paper-font-display2);
+      @apply(--layout-horizontal);
+      @apply(--layout-end-justified);
+    }
 
-            #heading.AM .AM,
-            #heading.PM .PM,
-            #heading.pg-date .day,
-            #heading.pg-hours .hours,
-            #heading.pg-minutes .minutes,
-            #heading.pg-year .year,
-            #heading.pg-months .day {
-                color: var(--text-primary-color);
-                font-weight: bold;
-            }
+    #heading.AM .AM,
+    #heading.PM .PM,
+    #heading.pg-date .day,
+    #heading.pg-hours .hours,
+    #heading.pg-minutes .minutes,
+    #heading.pg-year .year,
+    #heading.pg-months .day {
+      color: var(--text-primary-color);
+      font-weight: bold;
+    }
 
-            #heading .period {
-                font-weight: 600;
-                @apply(--paper-font-subhead);
-            }
+    #heading .period {
+      font-weight: 600;
+      @apply(--paper-font-subhead);
+    }
 
-            #heading .day,
-            #heading .hours,
-            #heading .minutes,
-            #heading .period div,
-            #heading .time div,
-            #heading .year {
-                cursor: pointer;
-            }
+    #heading .day,
+    #heading .hours,
+    #heading .minutes,
+    #heading .period div,
+    #heading .time div,
+    #heading .year {
+      cursor: pointer;
+    }
 
-            #heading .date {
-                margin-right: auto;
-            }
+    #heading .date {
+      margin-right: auto;
+    }
 
-            #heading .time {
-                margin-right: auto;
-            }
+    #heading .time {
+      margin-right: auto;
+    }
 
-            #heading .hidden-true {
-                display: none;
-            }
+    #heading .hidden-true {
+      display: none;
+    }
 
-            #heading .day {
-                @apply(--paper-font-display1);
-                margin-top: 2px;
-                @apply(--paper-date-picker-heading-date);
-                font-size: 30px;
-            }
+    #heading .day {
+      @apply(--paper-font-display1);
+      margin-top: 2px;
+      @apply(--paper-date-picker-heading-date);
+      font-size: 30px;
+    }
 
-            #heading .year {
-                @apply(--paper-font-body2);
-                font-size: 16px;
-                @apply(--paper-date-picker-heading-date);
-            }
+    #heading .year {
+      @apply(--paper-font-body2);
+      font-size: 16px;
+      @apply(--paper-date-picker-heading-date);
+    }
 
-            #heading .period {
-                margin-left: 10px;
-            }
+    #heading .period {
+      margin-left: 10px;
+    }
 
-            #pages {
-                @apply(--layout-flex);
-                width: auto;
-                background: var(--default-background-color);
-            }
+    #pages {
+      @apply(--layout-flex);
+      width: auto;
+      background: var(--default-background-color);
+    }
 
-            #calendar {
-                --paper-calendar: {
-                    @apply(--paper-date-picker-calendar);
-                }
-            }
-            /** Clock *********************/
+    #calendar {
+      --paper-calendar: {
+        @apply(--paper-date-picker-calendar);
+      }
+    }
+    /** Clock *********************/
 
-            #valuePicker {
-                background: var(--default-background-color);
-                overflow: hidden;
-                @apply(--layout-flex);
-                @apply(--paper-time-picker-clock);
-                @apply(--layout-vertical);
-            }
+    #valuePicker {
+      background: var(--default-background-color);
+      overflow: hidden;
+      @apply(--layout-flex);
+      @apply(--paper-time-picker-clock);
+      @apply(--layout-vertical);
+    }
 
-            #valuePicker>div {
-                @apply(--layout-flex);
-                position: relative;
-                left: 15px;
-            }
+    #valuePicker>div {
+      @apply(--layout-flex);
+      position: relative;
+      left: 15px;
+    }
 
-            .clock {
-                @apply(--layout-fit);
-            }
+    .clock {
+      @apply(--layout-fit);
+    }
 
-            .clock-animatable {
-                @apply(--layout-fit);
-            }
+    .clock-animatable {
+      @apply(--layout-fit);
+    }
 
-            g.hide {
-                display: none;
-            }
+    g.hide {
+      display: none;
+    }
 
-            paper-clock-selector {
-                height: 100%;
-            }
-            .hidden-true {
-                display: none;
-            }
-        </style>
-        <iron-media-query query="{{_getMediaQuery(forceNarrow, responsiveWidth)}}" query-matches="{{_queryMatches}}"></iron-media-query>
+    paper-clock-selector {
+      height: 100%;
+    }
 
-        <div id="datetimePicker">
-            <div id="heading" class$="{{_getHeadingClass('heading-content', _selectedPage)}} {{period}}" selectable="[name]" attr-for-selected="name" selected="{{view}}">
-                <div hidden$="{{nodate}}" class="date">
-                    <div class="year" on-tap="_tapHeadingYear" name="year">{{dateFormat(datetime, 'YYYY', locale)}}</div>
-                    <div class="day" on-tap="_tapHeadingDate" name="date">{{dateFormat(datetime, headingFormat, locale)}}
-                    </div>
-                </div>
-                <div class$="time hidden-{{notime}}">
-                    <div name="hours" on-tap="_tapHeadingHour" class="hours">{{dateFormat(datetime, hourHeadingFormat, locale)}}</div>
-                    <div class="sep">:</div>
-                    <div name="minutes" on-tap="_tapHeadingMinute" class="minutes">{{dateFormat(datetime, 'mm', locale)}}</div>
-                    <div class="period" hidden$="{{format24}}">
-                        <div class="AM" name="AM" on-tap="_periodChanged">AM</div>
-                        <div class="PM" name="PM" on-tap="_periodChanged">PM</div>
-                    </div>
-                </div>
-            </div>
-            <neon-animated-pages id="pages" class$="{{_selectedPage}} fit" selected="{{_selectedPage}}" attr-for-selected="id" entry-animation="fade-in-animation" exit-animation="fade-out-animation">
-                <neon-animatable id="date">
-                    <paper-calendar id="calendar" locale="{{locale}}" date="{{datetime}}" min-date="{{minDate}}" max-date="{{maxDate}}"></paper-calendar>
-                </neon-animatable>
-                <neon-animatable id="months">
-                    <paper-month-list id="monthList" locale="{{locale}}" on-tap="_tapHeadingDate" date="{{datetime}}" min="[[_minMonth]]" max="[[_maxMonth]]"></paper-month-list>
-                </neon-animatable>
-                <neon-animatable id="year">
-                    <paper-year-list id="yearList" date="{{datetime}}" on-tap="_tapHeadingDate" min="[[_minYear]]" max="[[_maxYear]]"></paper-year-list>
-                </neon-animatable>
-                <neon-animatable id="hours" class$="clock-animatable">
-                    <paper-clock-selector id="hourClock" count="{{hourFormat}}" step="1" animated="[[animated]]" selected="{{hour}}" narrow="[[narrow]]"></paper-clock-selector>
-                </neon-animatable>
-                <neon-animatable id="minutes" class$="clock-animatable">
-                    <paper-clock-selector id="minuteClock" count="60" step="5" animated="[[animated]]" use-zero zero-pad selected="{{minute}}" narrow="[[narrow]]"></paper-clock-selector>
-                </neon-animatable>
-            </neon-animated-pages>
+    .hidden-true {
+      display: none;
+    }
+    </style>
+    <iron-media-query query="{{_getMediaQuery(forceNarrow, responsiveWidth)}}" query-matches="{{_queryMatches}}"></iron-media-query>
+
+    <div id="datetimePicker">
+      <div id="heading" class$="{{_getHeadingClass('heading-content', _selectedPage)}} {{period}}" selectable="[name]" attr-for-selected="name" selected="{{view}}">
+        <div hidden$="{{nodate}}" class="date">
+          <div class="year" on-tap="_tapHeadingYear" name="year">{{dateFormat(datetime, 'YYYY', locale)}}</div>
+          <div class="day" on-tap="_tapHeadingDate" name="date">{{dateFormat(datetime, headingFormat, locale)}}
+          </div>
         </div>
-    </template>
+        <div class$="time hidden-{{notime}}">
+          <div name="hours" on-tap="_tapHeadingHour" class="hours">{{dateFormat(datetime, hourHeadingFormat, locale)}}</div>
+          <div class="sep">:</div>
+          <div name="minutes" on-tap="_tapHeadingMinute" class="minutes">{{dateFormat(datetime, 'mm', locale)}}</div>
+          <div class="period" hidden$="{{format24}}">
+            <div class="AM" name="AM" on-tap="_periodChanged">AM</div>
+            <div class="PM" name="PM" on-tap="_periodChanged">PM</div>
+          </div>
+        </div>
+      </div>
+      <neon-animated-pages id="pages" class$="{{_selectedPage}} fit" selected="{{_selectedPage}}" attr-for-selected="id" entry-animation="fade-in-animation" exit-animation="fade-out-animation">
+        <neon-animatable id="date">
+          <paper-calendar id="calendar" locale="{{locale}}" date="{{datetime}}" min-date="{{minDate}}" max-date="{{maxDate}}"></paper-calendar>
+        </neon-animatable>
+        <neon-animatable id="months">
+          <paper-month-list id="monthList" locale="{{locale}}" on-tap="_tapHeadingDate" date="{{datetime}}" min="[[_minMonth]]" max="[[_maxMonth]]"></paper-month-list>
+        </neon-animatable>
+        <neon-animatable id="year">
+          <paper-year-list id="yearList" date="{{datetime}}" on-tap="_tapHeadingDate" min="[[_minYear]]" max="[[_maxYear]]"></paper-year-list>
+        </neon-animatable>
+        <neon-animatable id="hours" class$="clock-animatable">
+          <paper-clock-selector id="hourClock" count="{{hourFormat}}" step="1" animated="[[animated]]" selected="{{hour}}" narrow="[[narrow]]"></paper-clock-selector>
+        </neon-animatable>
+        <neon-animatable id="minutes" class$="clock-animatable">
+          <paper-clock-selector id="minuteClock" count="60" step="5" animated="[[animated]]" use-zero zero-pad selected="{{minute}}" narrow="[[narrow]]"></paper-clock-selector>
+        </neon-animatable>
+      </neon-animated-pages>
+    </div>
+  </template>
     <script>
         (function() {
             function warn() {
@@ -863,8 +864,12 @@ If you include this element as part of `paper-dialog`, use the class
                     }
                 },
                 _resizeHandler: function() {
-                    if (!this.offsetWidth && this.$.pages.selected !== 'date') {
-                        this._selectPage('date');
+                    if (!this.offsetWidth) {
+                        if (this.$.pages.selected !== 'hours' && this.nodate) {
+                            this._selectPage('hours');
+                        } else if (this.$.pages.selected !== 'date' && !this.nodate) {
+                            this._selectPage('date');
+                        }
                     }
                     if (!this.offsetWidth || this._resizing) {
                         return;

@@ -12,203 +12,227 @@
 
 <dom-module id="paper-calendar">
     <template>
-        <style>
-            :host {
-                display: block;
-                box-sizing: border-box;
-                position: relative;
-                width: 100%;
-                height: 100%;
-                min-width: 160px;
-                min-height: 160px;
-                color: var(--primary-text-color);
-                -webkit-font-smoothing: antialiased;
-                -webkit-tap-highlight-color: rgba(0,0,0,0);
-                --ease-in-sine: cubic-bezier(0.47, 0, 0.745, 0.715);
-                --ease-out-sine: cubic-bezier(0.39, 0.575, 0.565, 1);
-                @apply(--paper-font-body1);
-                @apply(--paper-calendar);
-                overflow: hidden;
-                -webkit-touch-callout: none;
-                -webkit-user-select: none;
-                -khtml-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-                max-width: 90%;
-                max-height: 90% @apply(--paper-calendar);
-                margin: auto;
-                top: 20px;
-            }
-            #calendar {
-                position: relative;
-                width: 100%;
-                height: 100%;
-                @apply(--layout-horizontal);
-            }
-            #months {
-                height: 100%;
-                @apply(--layout-horizontal);
-            }
-            #months.animating .month-nav {
-                opacity: 1;
-            }
-            #months.animating {
-                transition-property: transform, opacity;
-                transition-duration: 300ms;
-            }
-            #months.animating.swipe {
-                transition-timing-function: var(--ease-in-sine);
-                --webkit-transition-timing-function: var(--ease-in-sine);
-            }
-            #months.animating.reset {
-                transition-timing-function: var(--ease-out-sine);
-                --webkit-transition-timing-function: var(--ease-out-sine);
-            }
-            .month {
-                height: 100%;
-                @apply(--layout-vertical);
-                @apply(--layout-justified);
-                @apply(--layout-flex);
-            }
-
-            .month-nav,
-            .month-row {
-                height: calc(100%/8);
-                box-sizing: border-box;
-                padding: 0 calc(100%/36);
-            }
-
-            .month-col {
-                position: relative;
-                @apply(--layout-vertical);
-                @apply(--layout-flex);
-            }
-
-            .month-nav {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                opacity: 1;
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-            }
-            .month-nav .col {
-                position: relative;
-                @apply(--layout-vertical);
-                @apply(--layout-center-center);
-            }
-            .month-nav .btn .icon,
-            .flex-2
-             {
-                cursor: pointer;
-            }
-            .month-nav .btn .ripple {
-                position: absolute;
-                width: 48px;
-                height: 48px;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
-            .month-nav .btn.right {
-                text-align: right;
-            }
-            .month-name {
-                line-height: 24px;
-                vertical-align: middle;
-                text-align: center;
-                font-weight: bold;
-                @apply(--paper-font-body2);
-                @apply(--layout-horizontal);
-                @apply(--layout-center);
-                @apply(--layout-center-justified);
-                @apply(--layout-flex);
-            }
-            .month-weekdays {
-                color: var(--secondary-text-color);
-                @apply(--layout-horizontal);
-                @apply(--layout-justified);
-                @apply(--layout-flex);
-            }
-            .month-days {
-                @apply(--layout-horizontal);
-                @apply(--layout-justified);
-                @apply(--layout-flex);
-            }
-            .month-col .day {
-                cursor: default;
-                pointer-events: none;
-                @apply(--layout-fit);
-                @apply(--layout-vertical);
-                @apply(--layout-center-center);
-            }
-            .month-col {
-                position: relative;
-                width: 100%;
-                height: 100%;
-                @apply(--layout-center-center);
-            }
-            .day-item {
-                border-radius: 100%;
-                width: 100%;
-                height: 100%;
-            }
-            .day-item::selection {
-                background: none;
-            }
-            .day-item.selected {
-                background: var(--default-primary-color);
-            }
-            .day-item.selected .day {
-                color: var(--text-primary-color);
-            }
-            .day-item:not([disabled]) {
-                cursor: pointer;
-            }
-            .day-item[disabled] .day {
-                color: var(--text-disabled-color, #9d9d9d);
-            }
-            .day-item.today .day {
-                color: var(--default-primary-color);
-            }
-            .day-item.selected.today .day {
-                color: var(--text-primary-color);
-            }
-            .flex {
-                @apply(--layout-flex);
-            }
-            .flex-2 {
-                @apply(--layout-flex-2);
-                height:100%;
-                margin:22%;
-            }
-
-        </style>
-        <div id="calendar">
-            <div id="months" on-track="_onTrack" class$="{{_contentClass}}">
-                <template is="dom-repeat" items="{{_months}}" as="month">
-                    <div class$="{{_getMonthClass('month', month)}}">
-                        <div class="month-row month-name">
-                            <div class="monthselector">{{dateFormat(month.date, 'MMMM YYYY', locale)}}</div>
-                        </div>
-                        <div class="month-row month-weekdays week">
-                            <template is="dom-repeat" items="{{_weekdays}}">
-                                <div class="month-col layout vertical flex">
-                                    <div class="day">{{item.0}}</div>
-                                </div>
-                            </template>
+    <style>
+    :host {
+      display: block;
+      box-sizing: border-box;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-width: 160px;
+      min-height: 160px;
+      color: var(--primary-text-color);
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      --ease-in-sine: cubic-bezier(0.47, 0, 0.745, 0.715);
+      --ease-out-sine: cubic-bezier(0.39, 0.575, 0.565, 1);
+      @apply(--paper-font-body1);
+      @apply(--paper-calendar);
+      overflow: hidden;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      max-width: 90%;
+      max-height: 90% @apply(--paper-calendar);
+      margin: auto;
+      top: 20px;
+    }
+    
+    #calendar {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      @apply(--layout-horizontal);
+    }
+    
+    #months {
+      height: 100%;
+      @apply(--layout-horizontal);
+    }
+    
+    #months.animating .month-nav {
+      opacity: 1;
+    }
+    
+    #months.animating {
+      transition-property: transform, opacity;
+      transition-duration: 300ms;
+    }
+    
+    #months.animating.swipe {
+      transition-timing-function: var(--ease-in-sine);
+      --webkit-transition-timing-function: var(--ease-in-sine);
+    }
+    
+    #months.animating.reset {
+      transition-timing-function: var(--ease-out-sine);
+      --webkit-transition-timing-function: var(--ease-out-sine);
+    }
+    
+    .month {
+      height: 100%;
+      @apply(--layout-vertical);
+      @apply(--layout-justified);
+      @apply(--layout-flex);
+    }
+    
+    .month-nav,
+    .month-row {
+      height: calc(100%/8);
+      box-sizing: border-box;
+      padding: 0 calc(100%/36);
+    }
+    
+    .month-col {
+      position: relative;
+      @apply(--layout-vertical);
+      @apply(--layout-flex);
+    }
+    
+    .month-nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 1;
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+    }
+    
+    .month-nav .col {
+      position: relative;
+      @apply(--layout-vertical);
+      @apply(--layout-center-center);
+    }
+    
+    .month-nav .btn .icon,
+    .flex-2 {
+      cursor: pointer;
+    }
+    
+    .month-nav .btn .ripple {
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .month-nav .btn.right {
+      text-align: right;
+    }
+    
+    .month-name {
+      line-height: 24px;
+      vertical-align: middle;
+      text-align: center;
+      font-weight: bold;
+      @apply(--paper-font-body2);
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+      @apply(--layout-center-justified);
+      @apply(--layout-flex);
+    }
+    
+    .month-weekdays {
+      color: var(--secondary-text-color);
+      @apply(--layout-horizontal);
+      @apply(--layout-justified);
+      @apply(--layout-flex);
+    }
+    
+    .month-days {
+      @apply(--layout-horizontal);
+      @apply(--layout-justified);
+      @apply(--layout-flex);
+    }
+    
+    .month-col .day {
+      cursor: default;
+      pointer-events: none;
+      @apply(--layout-fit);
+      @apply(--layout-vertical);
+      @apply(--layout-center-center);
+    }
+    
+    .month-col {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      @apply(--layout-center-center);
+    }
+    
+    .day-item {
+      border-radius: 100%;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .day-item::selection {
+      background: none;
+    }
+    
+    .day-item.selected {
+      background: var(--default-primary-color);
+    }
+    
+    .day-item.selected .day {
+      color: var(--text-primary-color);
+    }
+    
+    .day-item:not([disabled]) {
+      cursor: pointer;
+    }
+    
+    .day-item[disabled] .day {
+      color: var(--text-disabled-color, #9d9d9d);
+    }
+    
+    .day-item.today .day {
+      color: var(--default-primary-color);
+    }
+    
+    .day-item.selected.today .day {
+      color: var(--text-primary-color);
+    }
+    
+    .flex {
+      @apply(--layout-flex);
+    }
+    
+    .flex-2 {
+      @apply(--layout-flex-2);
+      height: 100%;
+      margin: 22%;
+    }
+    </style>
+    <div id="calendar">
+      <div id="months" on-track="_onTrack" class$="{{_contentClass}}">
+        <template is="dom-repeat" items="{{_months}}" as="month">
+          <div class$="{{_getMonthClass('month', month)}}">
+            <div class="month-row month-name">
+              <div class="monthselector">{{dateFormat(month.date, 'MMMM YYYY', locale)}}</div>
+            </div>
+            <div class="month-row month-weekdays week">
+              <template is="dom-repeat" items="{{_weekdays}}">
+                <div class="month-col layout vertical flex">
+                  <div class="day">{{item.0}}</div>
+                </div>
+              </template>
     </div>
     <template is="dom-repeat" items="{{month.weeks}}" as="row">
-                            <div class="month-row month-days">
-                                <template is="dom-repeat" items="{{row}}">
-                                    <div class="month-col">
-                                        <div class$="{{_getDayClass('day-item selection', item.date, today, date)}}" disabled$="{{_isDisabled(item.day, item.date, minDate, maxDate)}}" on-tap="_tapDay" date$="{{item.name}}">
-                                            <div class="day">{{item.day}}</div>
-                                        </div>
-                                    </div>
-                                </template>
+              <div class="month-row month-days">
+                <template is="dom-repeat" items="{{row}}">
+                  <div class="month-col">
+                    <div class$="{{_getDayClass('day-item selection', item.date, today, date)}}" disabled$="{{_isDisabled(item.day, item.date, minDate, maxDate)}}" on-tap="_tapDay" date$="{{item.name}}">
+                      <div class="day">{{item.day}}</div>
+                    </div>
+                  </div>
+                </template>
     </div>
     </template>
     </div>
@@ -233,21 +257,16 @@
     </template>
     <script>
         (function() {
-
             // Ignore movement within this distance (px)
             var WIGGLE_THRESHOLD = 4;
             var WIGGLE_THRESHOLD_SQUARE = WIGGLE_THRESHOLD * WIGGLE_THRESHOLD;
-
             // what constitues a flick (px/ms)
             var FLICK_SPEED = 0.5;
-
             // Factor for "springy" resistence effect when swiping too far.
             var RESIST_LENGTH = 40;
             var RESIST_FACTOR = 2;
-
             // Number of months to preload on both sides of the current month
             var PRELOAD_MONTHS = 1;
-
             Polymer({
                 is: 'paper-calendar',
                 properties: {
@@ -340,7 +359,6 @@
                         dayInfo,
                         monthData,
                         months = [];
-
                     for (var i = -PRELOAD_MONTHS; i <= PRELOAD_MONTHS; i++) {
                         weeks = [
                             []
@@ -353,7 +371,6 @@
                             month: date.getMonth() + 1,
                             date: new Date(date)
                         };
-
                         // add "padding" days
                         var firstDay = date.getDay() - this._firstDayOfWeek;
                         if (firstDay < 0) {
@@ -365,7 +382,6 @@
                                 date: null
                             });
                         }
-
                         // add actual days
                         while (date.getMonth() === month) {
                             if (weeks[0].length && d % 7 === 0) {
@@ -383,7 +399,6 @@
                             date.setDate(++day);
                             d++;
                         }
-
                         // add remaining "padding" days
                         while (d < 42) {
                             if (d % 7 === 0) {
@@ -395,10 +410,8 @@
                             });
                             d += 1;
                         }
-
                         monthData.weeks = weeks;
                         months.push(monthData);
-
                     }
                     if (!months.length) {
                         return;
@@ -440,20 +453,17 @@
                     var adx = Math.abs(dx);
                     var ady = Math.abs(dy);
                     var width = this._containerWidth;
-
                     switch (event.detail.state) {
                         case 'start':
                             this._trackStartTime = (new Date()).getTime();
                             this._startPos = this._currentPos;
                             this._moveQueue = [];
                             break;
-
                         case 'track':
                             if (this._moveQueue.length >= 4) {
                                 this._moveQueue.shift();
                             }
                             this._moveQueue.push(event);
-
                             // ignore movement within WIGGLE_THRESHOLD
                             var distance = (dx * dx) + (dy * dy);
                             if (!this._gesture && distance > WIGGLE_THRESHOLD_SQUARE) {
@@ -461,16 +471,13 @@
                                     'pan-x' :
                                     'pan-y';
                             }
-
                             // only drag during pan-x gesture
                             if (this._gesture !== 'pan-x') {
                                 return;
                             }
-
                             this._dragging = true;
                             var fullWidth = width * this._months.length;
                             var x = this._startPos + dx;
-
                             // If we're dragging outside the bounds, add some resistence
                             if (x > 0 || x < (-fullWidth + width)) {
                                 if (isNaN(parseInt(this._resistStart, 10))) {
@@ -492,7 +499,6 @@
                             }
                             this._translateX(x);
                             break;
-
                         case 'end':
                             this._resistStart = null;
                             var lastIdx = this._getMonthIdx(this._startPos);
@@ -509,7 +515,6 @@
                                     }
                                     this._transitionDuration = newDuration;
                                 }
-
                                 if (dx > 0) {
                                     this._swipePrevMonth();
                                 } else {
@@ -682,7 +687,20 @@
                 },
                 _withinValidRange: function(date) {
                     if (this._isValidDate(date)) {
-                        return (!this.minDate || date >= this.minDate) && (!this.maxDate || date <= this.maxDate);
+                        var minDateFormatted;
+                        var maxDateFormatted;
+                        var checkDate;
+                        if (this.minDate) {
+                            minDateFormatted = new Date(this.minDate);
+                            minDateFormatted.setHours(0, 0, 0, 0);
+                        }
+                        if (this.maxDate) {
+                            maxDateFormatted = new Date(this.maxDate);
+                            maxDateFormatted.setHours(0, 0, 0, 0);
+                        }
+                        checkDate = new Date(date);
+                        checkDate.setHours(0, 0, 0, 0);
+                        return (!minDateFormatted || checkDate >= minDateFormatted && (!maxDateFormatted || checkDate <= maxDateFormatted));
                     }
                     return false;
                 },
@@ -738,7 +756,6 @@
                         'OTransition': 'oTransitionEnd otransitionend',
                         'transition': 'transitionend'
                     };
-
                     for (var t in transitions) {
                         if (this.style[t] !== undefined) {
                             return transitions[t];
