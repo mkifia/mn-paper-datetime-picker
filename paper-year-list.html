@@ -30,12 +30,15 @@
             iron-list {
                 @apply(--layout-fit);
             }
+            .today {
+                color: var(--default-primary-color);
+            }
 
         </style>
         <iron-list id="yearList" items="[[_years]]">
             <template>
-                <div class$="year{{_addSelectedClass(selected)}}" on-tap="_tappedYearHandler">
-                    [[item.year]]
+                <div class$="year{{_addSelectedClass(selected, item)}}" on-tap="_tappedYearHandler">
+                    [[item.year]]                
                 </div>
             </template>
     </iron-list>
@@ -120,9 +123,13 @@
             /**
              * Return the selected class if needed.
              */
-            _addSelectedClass: function(selected) {
+            _addSelectedClass: function(selected, item) {
                 if (selected) {
                     return ' selected';
+                }
+                var now = new Date();
+                if (item.year === now.getFullYear()) {
+                    return ' today';
                 }
             },
             /**

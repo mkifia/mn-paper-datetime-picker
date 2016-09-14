@@ -354,10 +354,6 @@ If you include this element as part of `paper-dialog`, use the class
                         notify: true,
                         observer: '_dateTimeChanged'
                     },
-                    date: {
-                        type: Date,
-                        value: null
-                    },
                     time: {
                         type: String,
                         value: '12:00'
@@ -589,7 +585,7 @@ If you include this element as part of `paper-dialog`, use the class
                     this.isReady = true;
                 },
                 setDate: function(date) {
-                    this.datetime = date;
+                    this.datetime = new Date(date);
                     this.hour = date.getHours();
                     this.minute = date.getMinutes();
                 },
@@ -603,8 +599,8 @@ If you include this element as part of `paper-dialog`, use the class
                     } else {
                         // tapping the date header while already viewing months brings you back
                         // to the selected month
-                        this.$.calendar.currentMonth = this.date.getMonth() + 1;
-                        this.$.calendar.currentYear = this.date.getFullYear();
+                        this.$.calendar.currentMonth = this.datetime.getMonth() + 1;
+                        this.$.calendar.currentYear = this.datetime.getFullYear();
                     }
                 },
                 _tapHeadingYear: function() {
@@ -659,8 +655,6 @@ If you include this element as part of `paper-dialog`, use the class
                     if (!dateTime) {
                         this.rawValue = 0;
                         return;
-                    } {
-                        this.date = dateTime;
                     }
                 },
                 _updateTime: function(hour, minute) {
@@ -901,14 +895,14 @@ If you include this element as part of `paper-dialog`, use the class
                 },
                 _checkMinDate: function(date) {
                     if (this.$.calendar._isValidDate(date)) {
-                        if (this.date < date) {
+                        if (this.datetime < date) {
                             this.setDate(date);
                         }
                     }
                 },
                 _checkMaxDate: function(date)  {
                     if (this.$.calendar._isValidDate(date)) {
-                        if (this.date > date) {
+                        if (this.datetime > date) {
                             this.setDate(date);
                         }
                     }
