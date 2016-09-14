@@ -496,10 +496,13 @@
                             number.y = this._radius - y;
                             this._updateNumber(number);
                         }
-                        //  if (this.count < 60) {
-                        this._handX = this._numbers[0].x;
-                        this._handY = this._numbers[0].y;
-                        //  } else {      this._handXmin = this._numbers[0].x;      this._handYmin = this._numbers[0].y;  }
+                        if (!this.selected || this._numbers.length > 24) {
+                            this._handX = this._numbers[0].x;
+                            this._handY = this._numbers[0].y;
+                        } else {
+                            this._handX = this._numbers[this.selected].x;
+                            this._handY = this._numbers[this.selected].y;
+                        }
                     }
                     this.set('_numbers', numbers);
                 },

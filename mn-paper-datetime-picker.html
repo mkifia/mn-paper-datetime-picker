@@ -407,14 +407,18 @@ If you include this element as part of `paper-dialog`, use the class
                      */
                     minDate: {
                         type: Date,
-                        value: null
+                        value: null,
+                        notify: true,
+                        observer: '_checkMinDate'
                     },
                     /**
                      * The maximum allowed date
                      */
                     maxDate: {
                         type: Date,
-                        value: null
+                        value: null,
+                        notify: true,
+                        observer: '_checkMaxDate'
                     },
                     /**
                      * Force narrow layout
@@ -796,26 +800,34 @@ If you include this element as part of `paper-dialog`, use the class
                         default:
                             this._tapHeadingDate();
                     }
-                    // prevent the clock-hand transition when selecting, otherwise the extra movement would be confusing
-                    if (this._selecting || !fromView || !toView || !this.animated) {
+                    if (!fromView || !toView) {
                         return;
                     }
+
                     var clocks = {
                         'hours': this.$.hourClock,
                         'minutes': this.$.minuteClock
                     };
+                    var to = clocks[toView];
+                    var toAngle = (360 / to.count) * to.selected;
+                    if (to.count == 24) {
+                        var toAngle = (360 / (to.count / 2)) * (to.selected / 2);
+                    }
+                    // prevent the clock-hand transition when selecting, otherwise the extra movement would be confusing
+                    if (this._selecting || !this.animated) {
+                        clocks[toView].setClockHand(toAngle);
+                        return;
+                    }
                     var from = clocks[fromView];
                     if (fromView.indexOf('date') >= 0 || fromView.indexOf('year') >= 0) {
                         from = clocks['hours'];
                     }
-                    var to = clocks[toView];
                     var fromAngle = (360 / from.count) * from.selected;
                     if (from.count == 24) {
                         fromAngle = (360 / (from.count / 2)) * from.selected;
                     }
-                    var toAngle = (360 / to.count) * to.selected;
-                    if (to.count == 24) {
-                        var toAngle = (360 / (to.count / 2)) * to.selected;
+                    if (!fromAngle) {
+                        fromAngle = 0;
                     }
                     // transition both clock hands at the same time
                     to.setClockHand(fromAngle, false);
@@ -829,6 +841,13 @@ If you include this element as part of `paper-dialog`, use the class
                     }.bind(this));
                 },
                 _onClockSelected: function(event) {
+                    var newDatetime = new Date(this.datetime);
+                    newDatetime.setMinutes(this.minute);
+                    if (this.hour === 24) {
+                        newDatetime.setDate(newDatetime.getDate() - 1);
+                    }
+                    newDatetime.setHours(this.hour);
+                    this.datetime = newDatetime;
                     if (this.view === 'hours') {
                         var showMinutes = function() {
                             this.async(function() {
@@ -848,13 +867,6 @@ If you include this element as part of `paper-dialog`, use the class
                         }
                         showMinutes();
                     }
-                    var newDatetime = new Date(this.datetime);
-                    newDatetime.setMinutes(this.minute);
-                    if (this.hour === 24) {
-                        newDatetime.setDate(newDatetime.getDate() - 1);
-                    }
-                    newDatetime.setHours(this.hour);
-                    this.datetime = newDatetime;
                 },
                 _onDateSelected: function() {
                     if (!this.notime) {
@@ -886,6 +898,20 @@ If you include this element as part of `paper-dialog`, use the class
                 },
                 _getHeadingClass: function(pfx, selectedPage) {
                     return pfx + ' pg-' + selectedPage;
+                },
+                _checkMinDate: function(date) {
+                    if (this.$.calendar._isValidDate(date)) {
+                        if (this.date < date) {
+                            this.datetime = new Date(date);
+                        }
+                    }
+                },
+                _checkMaxDate: function(date)  {
+                    if (this.$.calendar._isValidDate(date)) {
+                        if (this.date > date) {
+                            this.datetime = new Date(date);
+                        }
+                    }
                 }
             });
         })();
