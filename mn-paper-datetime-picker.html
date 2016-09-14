@@ -902,14 +902,14 @@ If you include this element as part of `paper-dialog`, use the class
                 _checkMinDate: function(date) {
                     if (this.$.calendar._isValidDate(date)) {
                         if (this.date < date) {
-                            this.datetime = new Date(date);
+                            this.setDate(date);
                         }
                     }
                 },
                 _checkMaxDate: function(date)  {
                     if (this.$.calendar._isValidDate(date)) {
                         if (this.date > date) {
-                            this.datetime = new Date(date);
+                            this.setDate(date);
                         }
                     }
                 }
