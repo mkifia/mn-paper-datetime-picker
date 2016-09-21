@@ -699,7 +699,7 @@
                         }
                         checkDate = new Date(date);
                         checkDate.setHours(0, 0, 0, 0);
-                        return (!minDateFormatted || checkDate >= minDateFormatted && (!maxDateFormatted || checkDate <= maxDateFormatted));
+                        return (((!minDateFormatted || checkDate >= minDateFormatted) && (!maxDateFormatted || checkDate <= maxDateFormatted)));
                     }
                     return false;
                 },
