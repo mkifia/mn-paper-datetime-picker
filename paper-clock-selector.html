@@ -9,11 +9,11 @@
 <dom-module id="paper-clock-selector">
     <template>
         <style>
-             :host * {
+            :host * {
                 -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
             }
 
-             :host {
+            :host {
                 display: block;
                 @apply(--paper-font-body1);
                 -webkit-touch-callout: none;
@@ -34,7 +34,7 @@
                 height: 100%;
             }
 
-             :host([narrow]) #clock {
+            :host([narrow]) #clock {
                 padding: 15px;
             }
 
@@ -265,7 +265,7 @@
                     var transform = 'rotate(' + deg + 'deg)';
                     this.$.clockHand.classList[
                         ['remove', 'add'][+hasLabel]
-                    ]('no-dot');
+                        ]('no-dot');
                     if (this.count == 24) {
                         if (this.selected > 12) {
                             if (this.selected == 24) {
@@ -434,7 +434,7 @@
                         return;
                     }
                     this._radius = radius;
-                    this._selectorSize = 20;
+                    this._selectorSize = 10;
                     this._selectorDotSize = 3;
                     this._padding = 2;
                     this._positionClockPoints();
@@ -517,6 +517,8 @@
                     }
                 },
                 _getSelectArea: function(radius, outer, inner) {
+                    if (this._numbers.length != 24)
+                        this._selectorInner = outer = 5;
                     return '\nM ' + (radius - outer) + ' ' + radius + '\nA ' + outer + ' ' + outer + ' 0 0 0 ' + (radius + outer) + ' ' + radius + '\nA ' + outer + ' ' + outer + ' 0 0 0 ' + (radius - outer) + ' ' + radius + '\nM ' +
                         (radius - inner) + ' ' + radius + '\nA ' + inner + ' ' + inner + ' 0 0 1 ' + (radius + inner) + ' ' + radius + '\nA ' + inner + ' ' + inner + ' 0 0 1 ' + (radius - inner) + ' ' + radius;
                 },
@@ -535,8 +537,8 @@
                         // use coords to find angle from 12 o'clock position
                         var theta = Math.atan(y / x);
                         theta = (Math.PI / 2) + (x < 0 ?
-                            theta + Math.PI :
-                            theta);
+                                theta + Math.PI :
+                                theta);
                         var denominator = this.count;
                         if (this.count == 24) {
                             denominator = 12;
@@ -558,7 +560,7 @@
                                         bestPoint = number;
                                     }
                                 }
-                            })
+                            });
                             this.selected = bestPoint.value;
                         }
                     }
