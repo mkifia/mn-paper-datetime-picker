@@ -98,6 +98,11 @@
                 fill-opacity: 0;
             }
 
+            #numbers :hover,
+            .number :hover {
+                cursor: pointer;
+            }
+
             #clock.animating #clipCircle,
             #clock.animating #clockHand {
                 transition: transform 150ms ease-in;
@@ -120,7 +125,7 @@
                 <circle class="disc-large" r$="{{_selectorSize}}" cx$="{{_handX}}" cy$="{{_handY}}"></circle>
                 <circle class="disc-small" r$="{{_selectorDotSize}}" cx$="{{_handX}}" cy$="{{_handY}}"></circle>
             </g>
-            <g id="numbers"></g>
+            <g id="numbers" on-tap="_onTouch" on-track="_onTouch"></g>
             <path class="select-area" on-tap="_onTouch" on-track="_onTouch" d$="{{_getSelectArea(_radius, _selectorInner, _selectorOuter)}}"></path>
         </svg>
     </template>
@@ -554,7 +559,7 @@
                         if (Array.isArray(this._numbers)) {
                             this._numbers.forEach(function(number) {
                                 if (bestPoint == null) {
-                                    bestPoint = number;
+                                    bestPoint = number;../
                                 } else {
                                     if ((Math.sqrt(Math.pow(bestPoint.x - x, 2) + Math.pow(bestPoint.y - y, 2))) > (Math.sqrt(Math.pow(number.x - x, 2) + Math.pow(number.y - y, 2)))) {
                                         bestPoint = number;
