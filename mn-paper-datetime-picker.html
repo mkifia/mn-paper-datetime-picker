@@ -237,7 +237,7 @@ If you include this element as part of `paper-dialog`, use the class
 
       #heading .day {
         @apply(--paper-font-display1);
-        margin-top: 16px;
+        margin-top: 20px;
         @apply(--paper-date-picker-heading-date);
         font-size: 25px;
       }
@@ -781,20 +781,25 @@ If you include this element as part of `paper-dialog`, use the class
                   this.$.pages._notifyPageResize();
                   switch (toView) {
                       case 'date':
+                          this.toggleScroll(true, this);
                           this._tapHeadingDate();
                           return;
                           break;
                       case 'year':
+                          this.toggleScroll(true, this);
                           this._tapHeadingYear();
                           return;
                           break;
                       case 'hours':
+                          this.toggleScroll(false, this);
                           this._tapHeadingHour();
                           break;
                       case 'minutes':
+                          this.toggleScroll(false, this);
                           this._tapHeadingMinute();
                           break;
                       case 'months':
+                          this.toggleScroll(true, this);
                           this._tapHeadingMonth();
                           return;
                           break;
@@ -842,6 +847,8 @@ If you include this element as part of `paper-dialog`, use the class
                   }.bind(this));
               },
               _onClockSelected: function(event) {
+                  if (event.path[0].id === 'minuteClock')
+                      this.toggleScroll(true, this);
                   var newDatetime = new Date(this.datetime);
                   newDatetime.setMinutes(this.minute);
                   if (this.hour === 24) {
@@ -913,6 +920,13 @@ If you include this element as part of `paper-dialog`, use the class
                           this.setDate(date);
                       }
                   }
+              },
+              toggleScroll: (bool, that) => {
+                  if (window.addEventListener && window.removeEventListener)
+                      window[(!bool) ? 'addEventListener' : 'removeEventListener']('DOMMouseScroll', (e = new window.Event('DOMMouseScroll')) => e.preventDefault(), false);
+                  window.onmousewheel = document.onmousewheel = window.onwheel = window.ontouchmove = (!bool) ? (e = new window.Event('onwheel')) => e.preventDefault() : null;
+                  document.onkeydown = (e = new window.Event('onkeydown')) => (!bool && [9, 31, 32, 33, 34, 35, 36, 38, 39, 40].includes(e.keyCode)) ? e.preventDefault() : null;
+                  (that.dataHost._rootDataHost.localName.includes('edit-form')) ? that.dataHost._rootDataHost.style.overflow = (!bool) ? 'hidden' : '' : that.dataHost._rootDataHost.dataHost._rootDataHost.__domApi.node.$.modalEvent.style.overflow = (!bool) ? 'hidden' : '';
               }
           });
       })();

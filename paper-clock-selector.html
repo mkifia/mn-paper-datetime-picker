@@ -522,8 +522,7 @@
                     }
                 },
                 _getSelectArea: function(radius, outer, inner) {
-                    if (this._numbers.length != 24)
-                        this._selectorInner = outer = 5;
+                    this._selectorInner = outer = (this._numbers.length != 24) ? 5 : outer;
                     return '\nM ' + (radius - outer) + ' ' + radius + '\nA ' + outer + ' ' + outer + ' 0 0 0 ' + (radius + outer) + ' ' + radius + '\nA ' + outer + ' ' + outer + ' 0 0 0 ' + (radius - outer) + ' ' + radius + '\nM ' +
                         (radius - inner) + ' ' + radius + '\nA ' + inner + ' ' + inner + ' 0 0 1 ' + (radius + inner) + ' ' + radius + '\nA ' + inner + ' ' + inner + ' 0 0 1 ' + (radius - inner) + ' ' + radius;
                 },
@@ -559,7 +558,7 @@
                         if (Array.isArray(this._numbers)) {
                             this._numbers.forEach(function(number) {
                                 if (bestPoint == null) {
-                                    bestPoint = number;../
+                                    bestPoint = number;
                                 } else {
                                     if ((Math.sqrt(Math.pow(bestPoint.x - x, 2) + Math.pow(bestPoint.y - y, 2))) > (Math.sqrt(Math.pow(number.x - x, 2) + Math.pow(number.y - y, 2)))) {
                                         bestPoint = number;
