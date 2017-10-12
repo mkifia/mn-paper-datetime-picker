@@ -921,13 +921,26 @@ If you include this element as part of `paper-dialog`, use the class
                       }
                   }
               },
-              toggleScroll: (bool, that) => {
-                  if (window.addEventListener && window.removeEventListener)
-                      window[(!bool) ? 'addEventListener' : 'removeEventListener']('DOMMouseScroll', (e = new window.Event('DOMMouseScroll')) => e.preventDefault(), false);
-                  window.onmousewheel = document.onmousewheel = window.onwheel = window.ontouchmove = (!bool) ? (e = new window.Event('onwheel')) => e.preventDefault() : null;
-                  document.onkeydown = (e = new window.Event('onkeydown')) => (!bool && [9, 31, 32, 33, 34, 35, 36, 38, 39, 40].includes(e.keyCode)) ? e.preventDefault() : null;
-                  (that.dataHost._rootDataHost.localName.includes('edit-form')) ? that.dataHost._rootDataHost.style.overflow = (!bool) ? 'hidden' : '' : that.dataHost._rootDataHost.dataHost._rootDataHost.__domApi.node.$.modalEvent.style.overflow = (!bool) ? 'hidden' : '';
-              }
+              toggleScroll: function(bool, that) {
+                      if (window.addEventListener && window.removeEventListener)
+                          window[(!bool) ? 'addEventListener' : 'removeEventListener']('DOMMouseScroll', function(e) {
+                              e = (!e) ? new window.Event('DOMMouseScroll') : e;
+                              e.preventDefault();
+                      }, false);
+                      window.onmousewheel = document.onmousewheel = window.onwheel = window.ontouchmove = function(e) {
+                          e = (!e) ? new window.Event('onwheel') : e;
+                          (!bool) ? e.preventDefault() : null;
+                      };
+                      document.onkeydown = function(e) {
+                          e = (!e) ? new window.Event('onkeydown') : e;
+                          (!bool && [9, 31, 32, 33, 34, 35, 36, 38, 39, 40].includes(e.keyCode)) ? e.preventDefault() : null;
+                      };
+                      (that.dataHost._rootDataHost.localName.includes('edit-form'))
+                          ? that.dataHost._rootDataHost.style.setProperty('overflow', (!bool) ? 'hidden' : '')
+                          : (that.dataHost._rootDataHost.dataHost.$)
+                              ? that.dataHost._rootDataHost.dataHost.$.eventModal.style.setProperty('overflow', (!bool) ? 'hidden' : '')
+                              : that.dataHost._rootDataHost.dataHost._rootDataHost.$.modalEvent.style.setProperty('overflow', (!bool) ? 'hidden' : '');
+                  }
           });
       })();
   </script>
