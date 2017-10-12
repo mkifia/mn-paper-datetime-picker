@@ -848,8 +848,8 @@ If you include this element as part of `paper-dialog`, use the class
               },
               _onClockSelected: function(event) {
                   console.log(event, 'fesse');
-                  if (event.path[0].id === 'minuteClock')
-                      this.toggleScroll(true, this);
+                  //if (event.path[0].id === 'minuteClock')
+                  //    this.toggleScroll(true, this);
                   var newDatetime = new Date(this.datetime);
                   newDatetime.setMinutes(this.minute);
                   if (this.hour === 24) {
