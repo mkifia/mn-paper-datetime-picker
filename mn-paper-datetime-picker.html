@@ -866,14 +866,15 @@ If you include this element as part of `paper-dialog`, use the class
                           }.bind(this), 100);
                           this.$.hourClock.removeEventListener('paper-clock-transition-end', showMinutes);
                       }.bind(this);
-                      if (event.detail.animated) {
+                      //event.detail.animated
+                      if (false) {
                           this.$.hourClock.addEventListener('paper-clock-transition-end', showMinutes);
                       } else {
                           showMinutes();
                       }
-                      if (this.hour12 !== event.detail.value) {
-                          this.hour12 = event.detail.value;
-                      }
+//                      if (this.hour12 !== event.detail.value) {
+//                          this.hour12 = event.detail.value;
+//                      }
                       showMinutes();
                   }
               },
