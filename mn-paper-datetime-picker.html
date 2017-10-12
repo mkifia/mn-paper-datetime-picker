@@ -933,9 +933,9 @@ If you include this element as part of `paper-dialog`, use the class
                       };
                       document.onkeydown = function(e) {
                           e = (!e) ? new window.Event('onkeydown') : e;
-                          (!bool && [9, 31, 32, 33, 34, 35, 36, 38, 39, 40].includes(e.keyCode)) ? e.preventDefault() : null;
+                          (!bool && [9, 31, 32, 33, 34, 35, 36, 38, 39, 40].indexOf(e.keyCode) !== -1) ? e.preventDefault() : null;
                       };
-                      (that.dataHost._rootDataHost.localName.includes('edit-form'))
+                      (that.dataHost._rootDataHost.localName.indexOf('edit-form') !== -1)
                           ? that.dataHost._rootDataHost.style.setProperty('overflow', (!bool) ? 'hidden' : '')
                           : (that.dataHost._rootDataHost.dataHost.$)
                               ? that.dataHost._rootDataHost.dataHost.$.eventModal.style.setProperty('overflow', (!bool) ? 'hidden' : '')
