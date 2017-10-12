@@ -730,7 +730,7 @@ If you include this element as part of `paper-dialog`, use the class
               },
               _minuteChanged: function(minute) {
                   if (this.isReady) {
-                      minute = parseFloat(minute) % 60;
+                      minute = parseFloat(minute) % 0x3C;
                       this.minute = minute;
                       this.datetime.setMinutes(minute);
                       this.time = this.formatTime(this.hour, minute);
