@@ -849,6 +849,8 @@ If you include this element as part of `paper-dialog`, use the class
               },
               _onClockSelected: function(event) {
                   console.log(event, 'fesse');
+                      if (event.target.id === 'minuteClock')
+                          this.toggleScroll(true, this);
                   var newDatetime = new Date(this.datetime);
                   newDatetime.setMinutes(this.minute);
                   if (this.hour === 24) {
@@ -865,11 +867,14 @@ If you include this element as part of `paper-dialog`, use the class
                           }.bind(this), 100);
                           this.$.hourClock.removeEventListener('paper-clock-transition-end', showMinutes);
                       }.bind(this);
-                      if (false) {
+                          if (event.detail.animated) {
                           this.$.hourClock.addEventListener('paper-clock-transition-end', showMinutes);
                       } else {
                           showMinutes();
                       }
+                          if (this.hour12 !== event.detail.value) {
+                              this.hour12 = event.detail.value;
+                          }
                       showMinutes();
                   }
               },
