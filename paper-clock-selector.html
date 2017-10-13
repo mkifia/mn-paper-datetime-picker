@@ -401,19 +401,13 @@
                         var el = document.createElementNS(SVG_NS, type);
                         if (classList) {
                             classList.forEach(function(c) {
-                                if (el.classList) {
                                     el.classList.add(c);
-                                } else {
-                                    el.className.baseVal = el.className.animVal += ' ' + c;
-                                }
                             });
                         }
-                        if (el.classList && !Polymer.Settings.useNativeShadow) {
+                        if (!Polymer.Settings.useNativeShadow) {
                             el.classList.add('style-scope');
                             el.classList.add('paper-clock-selector');
-                        } else {
-                            el.className.baseVal += ' style-scope paper-clock-selector';
-                            el.className.animVal += ' style-scope paper-clock-selector';
+
                         }
                         return el;
                     }
