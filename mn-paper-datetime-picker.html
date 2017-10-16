@@ -945,7 +945,7 @@ If you include this element as part of `paper-dialog`, use the class
                       };
                       (that.dataHost._rootDataHost.localName.indexOf('edit-form') !== -1 && !bool)
                           ? that.dataHost._rootDataHost.scrollTop = that.scrollHeight
-                          : (that.dataHost._rootDataHost.dataHost.$)
+                          : (that.dataHost._rootDataHost.dataHost.$ && !bool)
                               ? that.dataHost._rootDataHost.dataHost.$.eventModal.scrollTop = that.scrollHeight
                               : that.dataHost._rootDataHost.dataHost._rootDataHost.$.modalEvent.scrollTop = that.scrollHeight;
                       (that.dataHost._rootDataHost.localName.indexOf('edit-form') !== -1)
