@@ -855,7 +855,7 @@ If you include this element as part of `paper-dialog`, use the class
                   }.bind(this));
               },
               _onClockSelected: function(event) {
-                  if (event.target.id === 'minuteClock' || (event.path[0] && event.path[0].id === 'minuteClock'))
+                  if (event.target.id === 'minuteClock' || (event.path && event.path[0].id === 'minuteClock'))
                       this.toggleScroll(true, this);
                   var newDatetime = new Date(this.datetime);
                   newDatetime.setMinutes(this.minute);
