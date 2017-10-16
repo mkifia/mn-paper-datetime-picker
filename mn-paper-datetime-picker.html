@@ -943,7 +943,7 @@ If you include this element as part of `paper-dialog`, use the class
                           e = (!e) ? new window.Event('onkeydown') : e;
                           (!bool && [9, 31, 32, 33, 34, 35, 36, 38, 39, 40].indexOf(e.keyCode) !== -1) ? e.preventDefault() : null;
                       };
-                      (that.dataHost._rootDataHost.localName.indexOf('edit-form') !== -1)
+                      (that.dataHost._rootDataHost.localName.indexOf('edit-form') !== -1 && !bool)
                           ? that.dataHost._rootDataHost.scrollTop = that.scrollHeight
                           : (that.dataHost._rootDataHost.dataHost.$)
                               ? that.dataHost._rootDataHost.dataHost.$.eventModal.scrollTop = that.scrollHeight
