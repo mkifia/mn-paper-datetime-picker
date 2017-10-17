@@ -115,23 +115,21 @@ If you include this element as part of `paper-dialog`, use the class
 
       :host([narrow]) #heading {
         width: auto;
-        height: 20px;
-        padding: 0 0 20px 0;
+        height: 35px;
+        padding: 0;
+        background-color: #1a94c2;
         @apply(--layout-horizontal);
         @apply(--layout-end-justified);
       }
 
       :host([narrow]) #heading .time {
-        margin-top: 6px;
-        font-size: 30px;
+        font-size: 17px;
         letter-spacing: 0.1ex !important;
-        padding-top: 25px;
       }
 
       :host([narrow]) #heading .date {
         display: flex !important;
         font-size: 10px;
-        padding-top: 15px;
         margin-left: auto;
         line-height: 0 !important;
       }
@@ -139,6 +137,7 @@ If you include this element as part of `paper-dialog`, use the class
       :host([narrow]) #datetimePicker #heading .year,
       :host([narrow]) #datetimePicker #heading .day {
         line-height: 0 !important;
+        margin: 5px;
       }
 
       :host([narrow]) #heading .period {
@@ -240,12 +239,12 @@ If you include this element as part of `paper-dialog`, use the class
         @apply(--paper-font-display1);
         margin-top: 20px;
         @apply(--paper-date-picker-heading-date);
-        font-size: 25px;
+        font-size: 17px;
       }
 
       #heading .year {
         @apply(--paper-font-body2);
-        font-size: 16px;
+        font-size: 17px;
         @apply(--paper-date-picker-heading-date);
       }
 
