@@ -642,6 +642,7 @@ If you include this element as part of `paper-dialog`, use the class
               _selectPage: function(page) {
                   this.$.pages.selected = page;
                   this.view = page;
+                  this.$.minutes.children.minuteClock.$.clockHand.style.setProperty("display", (page === 'minutes' && /rv:11.0/i.test(navigator.userAgent)) ? 'none' : 'inherit');
               },
               _getFullYear: function(date) {
                   return date ?
